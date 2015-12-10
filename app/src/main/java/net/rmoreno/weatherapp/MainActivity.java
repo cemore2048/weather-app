@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -22,8 +23,9 @@ public class MainActivity extends Activity {
 
     String ACTIVITY = "MAIN ACTIVITY";
 
-    OkHttpClient mClient;
     CurrentWeather mWeather;
+
+    TextView mTemperature;
 
     //take in
     String mURL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/37.8267,-122.423";
@@ -33,6 +35,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         OkHttpClient client = new OkHttpClient();
+
+
+        mTemperature = (TextView) findViewById(R.id.temperature);
 
         Request request = new Request.Builder()
                 .url(mURL)
@@ -49,16 +54,20 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Response response) throws IOException {
 
-                    Log.d(ACTIVITY, response.body().string());
                     try{
-                        if(response.isSuccessful()) {
-                            String jsonData = response.body().string();
+                        String jsonData = response.body().string();
 
-                            Log.d(ACTIVITY + "jsonObject", jsonData);
+                        if(response.isSuccessful()) {
 
                             mWeather = getWeatherData(jsonData);
 
-                            Log.d(ACTIVITY + "Temperature", mWeather.getTemp());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d(ACTIVITY + "Temperature", mWeather.getTemp());
+                                    setUIValues(mWeather);
+                                }
+                            });
                         }
 
                     } catch(JSONException e){
@@ -69,25 +78,26 @@ public class MainActivity extends Activity {
 
                 }
         });
-
-
-
-
-
-
     }
 
     public CurrentWeather getWeatherData(String jsonData) throws JSONException{
+
         CurrentWeather currentWeather = new CurrentWeather();
         JSONObject jsonObject = new JSONObject(jsonData);
 
-        JSONObject hourly = jsonObject.getJSONObject("hourly");
+        JSONObject currently = jsonObject.getJSONObject("currently");
 
-        currentWeather.setTemp(hourly.getString("temperature"));
+        Log.d(ACTIVITY + "hourly", currently.toString());
 
-        return new CurrentWeather();
+        currentWeather.setTemp(currently.getString("temperature"));
+
+        return currentWeather;
     }
 
+    public void setUIValues(CurrentWeather weather){
+        mTemperature.setText(weather.getTemp());
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
