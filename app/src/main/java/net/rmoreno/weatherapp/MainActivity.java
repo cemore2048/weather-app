@@ -44,9 +44,9 @@ public class MainActivity extends Activity {
 
 
         mTemperature = (TextView) findViewById(R.id.temperature);
-        mSummary = (TextView) findViewById(R.id.summary);
+//        mSummary = (TextView) findViewById(R.id.summary);
         mTime = (TextView) findViewById(R.id.time);
-        mIcon = (ImageView) findViewById(R.id.icon);
+//        mIcon = (ImageView) findViewById(R.id.icon);
 
         Request request = new Request.Builder()
                 .url(mURL)
@@ -100,15 +100,16 @@ public class MainActivity extends Activity {
 
         currentWeather.setTemp(currently.getString("temperature"));
         currentWeather.setSummary(currently.getString("summary"));
-        currentWeather.setTime(currently.getString("time"));
-        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setTime(currently.getLong("time"));
+
+        //currentWeather.setIcon(currently.getString("icon"));
 
         return currentWeather;
     }
 
     public void setUIValues(CurrentWeather weather){
-        mTemperature.setText(weather.getTemp());
-
+        mTemperature.setText(weather.getTemp() + "°");
+        mTime.setText("At " + weather.getFormatedTime());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
