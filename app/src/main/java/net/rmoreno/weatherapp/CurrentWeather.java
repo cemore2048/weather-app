@@ -5,6 +5,11 @@ package net.rmoreno.weatherapp;
  */
 public class CurrentWeather {
     String mTemp;
+    String mTime;
+    String mIcon;
+    String mSummary;
+
+
 
 
     public void setTemp(String temp){
@@ -13,5 +18,31 @@ public class CurrentWeather {
 
     public String getTemp(){
         return mTemp;
+    }
+
+    public void setTime(String time){
+        mTime = time;
+    }
+
+    public String  getTime(){
+        return mTime;
+    }
+
+    //TODO: actually implement this
+    public void setIcon(String icon){
+        mIcon = icon;
+    }
+
+    public String getIcon(){
+
+        return mIcon;
+    }
+
+    public void setSummary(String summary){
+        mSummary = summary;
+    }
+
+    public String getSummary(){
+        return mSummary;
     }
 }

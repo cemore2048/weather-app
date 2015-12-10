@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Call;
@@ -26,6 +27,11 @@ public class MainActivity extends Activity {
     CurrentWeather mWeather;
 
     TextView mTemperature;
+    TextView mSummary;
+    TextView mTime;
+
+    ImageView mIcon;
+
 
     //take in
     String mURL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/37.8267,-122.423";
@@ -38,6 +44,9 @@ public class MainActivity extends Activity {
 
 
         mTemperature = (TextView) findViewById(R.id.temperature);
+        mSummary = (TextView) findViewById(R.id.summary);
+        mTime = (TextView) findViewById(R.id.time);
+        mIcon = (ImageView) findViewById(R.id.icon);
 
         Request request = new Request.Builder()
                 .url(mURL)
@@ -90,6 +99,9 @@ public class MainActivity extends Activity {
         Log.d(ACTIVITY + "hourly", currently.toString());
 
         currentWeather.setTemp(currently.getString("temperature"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setTime(currently.getString("time"));
+        currentWeather.setIcon(currently.getString("icon"));
 
         return currentWeather;
     }
