@@ -8,7 +8,7 @@ import java.util.TimeZone;
  * Created by Rafa on 12/9/15.
  */
 public class CurrentWeather {
-    String mTemp;
+    double mTemp;
     long mTime;
     int mIcon;
     String mSummary;
@@ -17,12 +17,12 @@ public class CurrentWeather {
 
 
 
-    public void setTemp(String temp){
+    public void setTemp(double temp){
         mTemp = temp;
     }
 
-    public String getTemp(){
-        return mTemp;
+    public int getTemp(){
+        return (int) Math.round(mTemp);
     }
 
     public long  getTime(){

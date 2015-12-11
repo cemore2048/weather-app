@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.d(ACTIVITY + "Temperature", mWeather.getTemp());
+
                                     setUIValues(mWeather);
                                 }
                             });
@@ -98,9 +98,11 @@ public class MainActivity extends Activity {
 
         Log.d(ACTIVITY + "hourly", currently.toString());
 
-        currentWeather.setTemp(currently.getString("temperature"));
+        currentWeather.setTemp(currently.getDouble("temperature"));
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setTimeZone(jsonObject.getString("timezone"));
+
 
         //currentWeather.setIcon(currently.getString("icon"));
 

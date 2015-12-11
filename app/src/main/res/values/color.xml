@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="orange" type="color">#E27A3F</item>
+    <item name="white" type="color">#fff</item>
+</resources>
