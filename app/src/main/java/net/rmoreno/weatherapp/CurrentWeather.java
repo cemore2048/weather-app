@@ -85,9 +85,11 @@ public class CurrentWeather {
     public String getTimeZone(){
         return mTimeZone;
     }
+
     public void setTime(long time){
         mTime = time;
     }
+
     public String getFormatedTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
         formatter.setTimeZone(TimeZone.getTimeZone(getTimeZone()));
