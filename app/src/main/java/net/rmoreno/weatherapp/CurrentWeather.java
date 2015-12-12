@@ -10,12 +10,9 @@ import java.util.TimeZone;
 public class CurrentWeather {
     double mTemp;
     long mTime;
-    int mIcon;
+    String mIcon;
     String mSummary;
     String mTimeZone;
-
-
-
 
     public void setTemp(double temp){
         mTemp = temp;
@@ -29,8 +26,10 @@ public class CurrentWeather {
         return mTime;
     }
 
+    public String getIcon(){return mIcon;}
+
     //TODO: actually implement this
-    public void setIcon(int icon){
+    public void setIcon(String icon){
         mIcon = icon;
     }
 
@@ -38,8 +37,9 @@ public class CurrentWeather {
         mTimeZone = timeZone;
     }
 
-//    public int getIcon(){
-//        int iconId = R.drawable.clear_day;
+    public int getIconId(){
+        int iconId = R.drawable.clear;
+
 //
 //        if (mIcon.equals("clear-day")) {
 //            iconId = R.drawable.clear_day;
@@ -71,8 +71,8 @@ public class CurrentWeather {
 //        else if (mIcon.equals("partly-cloudy-night")) {
 //            iconId = R.drawable.cloudy_night;
 //        }
-//        return iconId;
-//    }
+        return iconId;
+    }
 
     public void setSummary(String summary){
         mSummary = summary;

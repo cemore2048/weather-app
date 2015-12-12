@@ -3,4 +3,8 @@
 
     <item name="orange" type="color">#E27A3F</item>
     <item name="white" type="color">#fff</item>
+    <item name="blue" type="color">#334D5C</item>
+    <item name="teal" type="color">#45B29D</item>
+    <item name="yellow" type="color">#EFC94C</item>
+    <item name="red" type="color">#DF5A49</item>
 </resources>

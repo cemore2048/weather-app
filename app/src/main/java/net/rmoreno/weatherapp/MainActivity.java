@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
         mTemperature = (TextView) findViewById(R.id.temperature);
 //        mSummary = (TextView) findViewById(R.id.summary);
         mTime = (TextView) findViewById(R.id.time);
-//        mIcon = (ImageView) findViewById(R.id.icon);
+        mIcon = (ImageView) findViewById(R.id.current_icon);
 
         Request request = new Request.Builder()
                 .url(mURL)
@@ -111,9 +111,7 @@ public class MainActivity extends Activity {
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setTimeZone(jsonObject.getString("timezone"));
-
-
-        //currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setIcon(currently.getString("icon"));
 
         return currentWeather;
     }
@@ -141,10 +139,11 @@ public class MainActivity extends Activity {
     public void setUIValues(CurrentWeather current, ArrayList<HourlyWeather> hourly){
         mTemperature.setText(current.getTemp() + "°");
         mTime.setText("At " + current.getFormatedTime());
+        mIcon.setImageResource(current.getIconId());
 
 
         //the hourly data is set inside the adapter class
-        HourlyAdapter adapter = new HourlyAdapter(hourly);
+        HourlyAdapter adapter = new HourlyAdapter(MainActivity.this, hourly);
         mRecyclerView.setAdapter(adapter);
 
     }
