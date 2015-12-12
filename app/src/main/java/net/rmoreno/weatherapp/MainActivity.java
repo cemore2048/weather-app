@@ -1,12 +1,16 @@
 package net.rmoreno.weatherapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,9 +31,10 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     String ACTIVITY = "MAIN ACTIVITY";
-
-    CurrentWeather mCurrentWeather;
     ArrayList<HourlyWeather> mHourlyWeather;
+    CurrentWeather mCurrentWeather;
+    CardView mCardView;
+
     RecyclerView mRecyclerView;
 
     TextView mTemperature;
@@ -48,8 +53,12 @@ public class MainActivity extends Activity {
 
         OkHttpClient client = new OkHttpClient();
 
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mCardView = (CardView) findViewById(R.id.currentData);
 
         mTemperature = (TextView) findViewById(R.id.temperature);
 //        mSummary = (TextView) findViewById(R.id.summary);
@@ -73,17 +82,27 @@ public class MainActivity extends Activity {
 
                     try{
                         String jsonData = response.body().string();
+                        final String passingData = jsonData;
 
                         if(response.isSuccessful()) {
 
                             mCurrentWeather = getCurrentWeatherData(jsonData);
-                            mHourlyWeather = getHourlyWeatherData(jsonData);
+                            //change to daily weather
+                            //mHourlyWeather = getHourlyWeatherData(jsonData);
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    setUIValues(mCurrentWeather, mHourlyWeather);
+                                    setUIValues(mCurrentWeather);
+                                    Log.d(ACTIVITY, "onclick listener set");
+                                    mCardView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(MainActivity.this, HourlyActivity.class);
+                                            intent.putExtra("hourly", passingData);
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -116,35 +135,11 @@ public class MainActivity extends Activity {
         return currentWeather;
     }
 
-    public ArrayList<HourlyWeather> getHourlyWeatherData(String jsonData) throws JSONException{
-        ArrayList<HourlyWeather> hourlyWeatherList = new ArrayList<>();
-
-        JSONObject jsonObject = new JSONObject(jsonData);
-        JSONObject hourly = jsonObject.getJSONObject("hourly");
-        JSONArray data = hourly.getJSONArray("data");
-
-        for(int i = 0; i< data.length(); i++){
-            HourlyWeather hourlyWeather = new HourlyWeather();
-
-            hourlyWeather.setTime(data.getJSONObject(i).getLong("time"));
-            hourlyWeather.setTemp(data.getJSONObject(i).getDouble("temperature"));
-            hourlyWeather.setTimeZone(jsonObject.getString("timezone"));
-            hourlyWeatherList.add(hourlyWeather);
-        }
-
-
-        return hourlyWeatherList;
-    }
-
-    public void setUIValues(CurrentWeather current, ArrayList<HourlyWeather> hourly){
+    public void setUIValues(CurrentWeather current) {
         mTemperature.setText(current.getTemp() + "°");
         mTime.setText("At " + current.getFormatedTime());
         mIcon.setImageResource(current.getIconId());
 
-
-        //the hourly data is set inside the adapter class
-        HourlyAdapter adapter = new HourlyAdapter(MainActivity.this, hourly);
-        mRecyclerView.setAdapter(adapter);
 
     }
     @Override

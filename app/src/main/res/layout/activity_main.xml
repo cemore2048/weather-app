@@ -2,10 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".MainActivity"
     >
-
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/currentData"
@@ -16,44 +14,71 @@
         card_view:cardMaxElevation="25dp"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/cardviewLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:weightSum="2"
-            android:orientation="vertical">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
 
-            <TextView
-                android:id="@+id/time"
-                tools:text="this is the time"
+            >
+            <LinearLayout
+                android:id="@+id/temperature_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
 
-                android:textColor="@color/white"
-                android:layout_weight=".5"/>
+                <TextView
+                    android:id="@+id/time"
+                    tools:text="this is the time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    />
 
-            <TextView
-                android:id="@+id/temperature"
-                tools:text="50°"
+                <TextView
+                    android:id="@+id/temperature"
+                    tools:text="50°"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/time"
+                    android:textSize="50sp"
+                    android:textColor="@color/white"
+                    />
+
+             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/forecast_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:textSize="50sp"
-                android:textColor="@color/white"
-                android:layout_weight=".5"/>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_below="@+id/temperature_layout"
+                android:layout_centerInParent="true">
 
-            <ImageView
-                android:id="@+id/current_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/current_icon"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
 
-        </LinearLayout>
+                    />
+                <TextView
+                    android:id="@+id/summary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"/>
+                </LinearLayout>
+
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "/>
 
     <view
         android:id="@+id/recycler_view"
