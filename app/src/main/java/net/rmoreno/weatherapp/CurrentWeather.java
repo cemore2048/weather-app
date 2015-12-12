@@ -14,12 +14,39 @@ public class CurrentWeather {
     String mSummary;
     String mTimeZone;
     int mPrecipitation;
+    double mWindSpeed;
+    double mFeelsLike;
 
     public void setPrecip(int precipitation){
         mPrecipitation = precipitation;
     }
+
+    public void setFeels(double feels){
+        mFeelsLike = feels;
+    }
+
+    public void setWind(double wind){
+        mWindSpeed = wind;
+    }
+
     public void setTemp(double temp){
         mTemp = temp;
+    }
+
+    public void setIcon(String icon){
+        mIcon = icon;
+    }
+
+    public void setTimeZone(String timeZone){
+        mTimeZone = timeZone;
+    }
+
+    public int getWind(){
+        return (int) Math.round(mWindSpeed);
+    }
+
+    public int getFeels(){
+        return (int) Math.round(mFeelsLike);
     }
 
     public int getTemp(){
@@ -37,13 +64,6 @@ public class CurrentWeather {
     }
 
     //TODO: actually implement this
-    public void setIcon(String icon){
-        mIcon = icon;
-    }
-
-    public void setTimeZone(String timeZone){
-        mTimeZone = timeZone;
-    }
 
     public int getIconId(){
         int iconId = R.drawable.clear;
