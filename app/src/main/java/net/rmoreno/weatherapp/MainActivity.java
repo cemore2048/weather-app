@@ -149,8 +149,8 @@ public class MainActivity extends Activity {
         mIcon.setImageResource(current.getIconId());
         mSummary.setText(current.getSummary());
         mPrecipitation.setText(String.valueOf(current.getPrecip())+"%");
-        mFeels.setText(String.valueOf(current.getFeels()));
-        mWind.setText(String.valueOf(current.getWind()));
+        mFeels.setText(String.valueOf(current.getFeels())+ "°");
+        mWind.setText(String.valueOf(current.getWind()) + "mph");
 
     }
     @Override
