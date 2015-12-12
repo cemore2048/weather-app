@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
     TextView mSummary;
     TextView mTime;
     TextView mPrecipitation;
+    TextView mWind;
+    TextView mFeels;
 
     ImageView mIcon;
 
@@ -63,6 +65,8 @@ public class MainActivity extends Activity {
         mSummary = (TextView) findViewById(R.id.summary_text);
         mTime = (TextView) findViewById(R.id.time);
         mPrecipitation = (TextView) findViewById(R.id.precipitation);
+        mFeels = (TextView) findViewById(R.id.feels);
+        mWind = (TextView) findViewById(R.id.wind);
 
         mIcon = (ImageView) findViewById(R.id.current_icon);
 
@@ -133,6 +137,8 @@ public class MainActivity extends Activity {
         currentWeather.setTimeZone(jsonObject.getString("timezone"));
         currentWeather.setIcon(currently.getString("icon"));
         currentWeather.setPrecip(currently.getInt("precipProbability"));
+        currentWeather.setFeels(currently.getDouble(("apparentTemperature")));
+        currentWeather.setWind(currently.getDouble(("windSpeed")));
 
         return currentWeather;
     }
@@ -143,6 +149,9 @@ public class MainActivity extends Activity {
         mIcon.setImageResource(current.getIconId());
         mSummary.setText(current.getSummary());
         mPrecipitation.setText(String.valueOf(current.getPrecip())+"%");
+        mFeels.setText(String.valueOf(current.getFeels()));
+        mWind.setText(String.valueOf(current.getWind()));
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
