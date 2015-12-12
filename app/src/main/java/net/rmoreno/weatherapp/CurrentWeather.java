@@ -13,7 +13,11 @@ public class CurrentWeather {
     String mIcon;
     String mSummary;
     String mTimeZone;
+    int mPrecipitation;
 
+    public void setPrecip(int precipitation){
+        mPrecipitation = precipitation;
+    }
     public void setTemp(double temp){
         mTemp = temp;
     }
@@ -27,6 +31,10 @@ public class CurrentWeather {
     }
 
     public String getIcon(){return mIcon;}
+
+    public int getPrecip(){
+        return mPrecipitation;
+    }
 
     //TODO: actually implement this
     public void setIcon(String icon){

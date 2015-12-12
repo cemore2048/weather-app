@@ -40,12 +40,13 @@ public class MainActivity extends Activity {
     TextView mTemperature;
     TextView mSummary;
     TextView mTime;
+    TextView mPrecipitation;
 
     ImageView mIcon;
 
 
     //take in
-    String mURL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/37.8267,-122.423";
+    String mURL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/30.627040,-96.341298";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +54,16 @@ public class MainActivity extends Activity {
 
         OkHttpClient client = new OkHttpClient();
 
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mCardView = (CardView) findViewById(R.id.currentData);
 
         mTemperature = (TextView) findViewById(R.id.temperature);
-//        mSummary = (TextView) findViewById(R.id.summary);
+        mSummary = (TextView) findViewById(R.id.summary_text);
         mTime = (TextView) findViewById(R.id.time);
+        mPrecipitation = (TextView) findViewById(R.id.precipitation);
+
         mIcon = (ImageView) findViewById(R.id.current_icon);
 
         Request request = new Request.Builder()
@@ -131,6 +132,7 @@ public class MainActivity extends Activity {
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setTimeZone(jsonObject.getString("timezone"));
         currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setPrecip(currently.getInt("precipProbability"));
 
         return currentWeather;
     }
@@ -139,8 +141,8 @@ public class MainActivity extends Activity {
         mTemperature.setText(current.getTemp() + "°");
         mTime.setText("At " + current.getFormatedTime());
         mIcon.setImageResource(current.getIconId());
-
-
+        mSummary.setText(current.getSummary());
+        mPrecipitation.setText(String.valueOf(current.getPrecip())+"%");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
