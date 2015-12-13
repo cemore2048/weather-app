@@ -60,7 +60,8 @@ public class CurrentWeather {
     public String getIcon(){return mIcon;}
 
     public int getPrecip(){
-        return mPrecipitation;
+        double precipPercentage = mPrecipitation * 100;
+        return (int) Math.round(precipPercentage);
     }
 
     //TODO: actually implement this
