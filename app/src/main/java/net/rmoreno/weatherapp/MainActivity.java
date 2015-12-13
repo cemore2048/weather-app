@@ -1,13 +1,21 @@
 package net.rmoreno.weatherapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,13 +56,11 @@ public class MainActivity extends Activity {
 
 
     //take in
-    String mURL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/30.627040,-96.341298";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        OkHttpClient client = new OkHttpClient();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,8 +76,27 @@ public class MainActivity extends Activity {
 
         mIcon = (ImageView) findViewById(R.id.current_icon);
 
+
+
+        if(isNetworkAvailible()){
+
+            getLocation();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        getLocation();
+    }
+    public void getWeather(double longitude, double latitude){
+
+        Log.d(ACTIVITY, String.valueOf(longitude) + " " + String.valueOf(latitude));
+        String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + longitude + "," + latitude;
+        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(mURL)
+                .url(URL)
                 .build();
 
         Call call = client.newCall(request);
@@ -85,43 +110,42 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Response response) throws IOException {
 
-                    try{
-                        String jsonData = response.body().string();
-                        final String passingData = jsonData;
+                try{
+                    String jsonData = response.body().string();
+                    final String passingData = jsonData;
 
-                        if(response.isSuccessful()) {
+                    if(response.isSuccessful()) {
 
-                            mCurrentWeather = getCurrentWeatherData(jsonData);
-                            //change to daily weather
-                            mDailyWeather = getDailyWeatherData(jsonData);
+                        mCurrentWeather = getCurrentWeatherData(jsonData);
+                        //change to daily weather
+                        mDailyWeather = getDailyWeatherData(jsonData);
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                                    setUIValues(mCurrentWeather, mDailyWeather);
-                                    Log.d(ACTIVITY, "onclick listener set");
-                                    mCardView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(MainActivity.this, HourlyActivity.class);
-                                            intent.putExtra("hourly", passingData);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-
-                    } catch(JSONException e){
-                        Log.d(ACTIVITY + " JSONEXCEPTION", e.getMessage());
-                    } catch(IOException e){
-                        Log.d(ACTIVITY + " IOEXCEPTION", e.getMessage());
+                                setUIValues(mCurrentWeather, mDailyWeather);
+                                Log.d(ACTIVITY, "onclick listener set");
+                                mCardView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MainActivity.this, HourlyActivity.class);
+                                        intent.putExtra("hourly", passingData);
+                                    }
+                                });
+                            }
+                        });
                     }
 
+                } catch(JSONException e){
+                    Log.d(ACTIVITY + " JSONEXCEPTION", e.getMessage());
+                } catch(IOException e){
+                    Log.d(ACTIVITY + " IOEXCEPTION", e.getMessage());
                 }
+
+            }
         });
     }
-
     public CurrentWeather getCurrentWeatherData(String jsonData) throws JSONException{
 
         CurrentWeather currentWeather = new CurrentWeather();
@@ -175,13 +199,75 @@ public class MainActivity extends Activity {
         DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily);
         mRecyclerView.setAdapter(adapter);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+    private boolean isNetworkAvailible() {
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()){
+            isAvailable = true;
+        }
+        return isAvailable;
     }
 
+
+
+    public boolean isLocationEnabled(Context context, LocationManager lm){
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    public void buildDialog(Context context){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage("GPS network is not enabled");
+        dialog.setPositiveButton(context.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                // TODO Auto-generated method stub
+                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(myIntent);
+                //get gps
+            }
+        });
+        dialog.setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        dialog.show();
+    }
+
+    public void getLocation(){
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new MyLocationListener();
+        
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0, locationListener);
+        if(isLocationEnabled(MainActivity.this, lm)){
+            Location location = new Location(LocationManager.NETWORK_PROVIDER);
+            getWeather(location.getLongitude(), location.getLatitude());
+
+        }else{
+            buildDialog(MainActivity.this);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
