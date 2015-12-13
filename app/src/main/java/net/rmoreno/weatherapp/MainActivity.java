@@ -90,10 +90,10 @@ public class MainActivity extends Activity {
 
         getLocation();
     }
-    public void getWeather(double longitude, double latitude){
+    public void getWeather(double latitude, double longitude){
 
         Log.d(ACTIVITY, String.valueOf(longitude) + " " + String.valueOf(latitude));
-        String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + longitude + "," + latitude;
+        String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + latitude + "," + longitude;
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(URL)
