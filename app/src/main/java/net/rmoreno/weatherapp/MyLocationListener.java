@@ -14,8 +14,10 @@ public class MyLocationListener implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-        location.getLatitude();
-        location.getLongitude();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        System.out.println("LATITUDE AND LONGITUDE" + latitude + "   " + longitude);
     }
 
     @Override

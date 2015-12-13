@@ -258,11 +258,12 @@ public class MainActivity extends Activity {
     public void getLocation(){
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new MyLocationListener();
-        
+
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0, locationListener);
         if(isLocationEnabled(MainActivity.this, lm)){
-            Location location = new Location(LocationManager.NETWORK_PROVIDER);
-            getWeather(location.getLongitude(), location.getLatitude());
+            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Log.d("LOCATION",String.valueOf(location.getLatitude()));
+            getWeather(location.getLatitude(), location.getLongitude());
 
         }else{
             buildDialog(MainActivity.this);
