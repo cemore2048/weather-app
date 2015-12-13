@@ -67,12 +67,12 @@ public class CurrentWeather {
     //TODO: actually implement this
 
     public int getIconId(){
-        int iconId = R.drawable.clear;
+        int iconId = R.drawable.clear_day;
 
-//
-//        if (mIcon.equals("clear-day")) {
-//            iconId = R.drawable.clear_day;
-//        }
+
+        if (mIcon.equals("clear-day")) {
+            iconId = R.drawable.clear_day;
+        }
 //        else if (mIcon.equals("clear-night")) {
 //            iconId = R.drawable.clear_night;
 //        }
@@ -91,15 +91,15 @@ public class CurrentWeather {
 //        else if (mIcon.equals("fog")) {
 //            iconId = R.drawable.fog;
 //        }
-//        else if (mIcon.equals("cloudy")) {
-//            iconId = R.drawable.cloudy;
-//        }
-//        else if (mIcon.equals("partly-cloudy-day")) {
-//            iconId = R.drawable.partly_cloudy;
-//        }
-//        else if (mIcon.equals("partly-cloudy-night")) {
-//            iconId = R.drawable.cloudy_night;
-//        }
+        else if (mIcon.equals("cloudy")) {
+            iconId = R.drawable.cloudy;
+        }
+        else if (mIcon.equals("partly-cloudy-day")) {
+            iconId = R.drawable.partly_cloudy_day;
+        }
+        else if (mIcon.equals("partly-cloudy-night")) {
+            iconId = R.drawable.cloudy_night;
+        }
         return iconId;
     }
 

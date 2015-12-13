@@ -19,6 +19,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
 
         public TextView mTemperature;
         public TextView mTime;
+
         public CardView mCard;
 
         public ViewHolder(View v){

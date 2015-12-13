@@ -181,6 +181,7 @@ public class MainActivity extends Activity {
             dailyWeather.setMinTemp(data.getJSONObject(i).getDouble("temperatureMin"));
             dailyWeather.setMaxTemp(data.getJSONObject(i).getDouble("temperatureMax"));
             dailyWeather.setTimeZone(jsonObject.getString("timezone"));
+            dailyWeather.setPrecip(data.getJSONObject(i).getInt("precipProbability"));
             dailyWeatherList.add(dailyWeather);
         }
 

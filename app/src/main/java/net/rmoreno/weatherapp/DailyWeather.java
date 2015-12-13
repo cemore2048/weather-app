@@ -53,13 +53,14 @@ public class DailyWeather {
     public String getIcon(){return mIcon;}
 
     public int getPrecip(){
-        return mPrecipitation;
+        double precipPercentage = mPrecipitation * 100;
+        return (int) Math.round(precipPercentage);
     }
 
     //TODO: actually implement this
 
     public int getIconId(){
-        int iconId = R.drawable.clear;
+        int iconId = R.drawable.clear_day;
 
 //
 //        if (mIcon.equals("clear-day")) {

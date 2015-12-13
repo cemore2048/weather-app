@@ -20,6 +20,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         public TextView mMaxTemperature;
         public TextView mMinTemperature;
         public TextView mDay;
+        public TextView mPrecip;
 
         public CardView mCard;
 
@@ -29,6 +30,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
             mMaxTemperature = (TextView) v.findViewById(R.id.max_temperature);
             mMinTemperature = (TextView) v.findViewById(R.id.min_temperature);
             mDay = (TextView) v.findViewById(R.id.time);
+            mPrecip = (TextView) v.findViewById(R.id.precipitation);
             mCard = (CardView) v.findViewById(R.id.hourlyCard);
         }
     }
@@ -61,6 +63,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         }
         holder.mMinTemperature.setText(String.valueOf(mDataset.get(position).getMinTemp())+ "° - ");
         holder.mMaxTemperature.setText(String.valueOf(mDataset.get(position).getMaxTemp()) + "°");
+        holder.mPrecip.setText(String.valueOf(mDataset.get(position).getPrecip()) + "%");
 
 
         if(position % 4 == 0){
