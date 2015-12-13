@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     String ACTIVITY = "MAIN ACTIVITY";
-    ArrayList<HourlyWeather> mHourlyWeather;
+    ArrayList<DailyWeather> mDailyWeather;
     CurrentWeather mCurrentWeather;
     CardView mCardView;
 
@@ -93,13 +93,13 @@ public class MainActivity extends Activity {
 
                             mCurrentWeather = getCurrentWeatherData(jsonData);
                             //change to daily weather
-                            //mHourlyWeather = getHourlyWeatherData(jsonData);
+                            mDailyWeather = getDailyWeatherData(jsonData);
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    setUIValues(mCurrentWeather);
+                                    setUIValues(mCurrentWeather, mDailyWeather);
                                     Log.d(ACTIVITY, "onclick listener set");
                                     mCardView.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -143,7 +143,27 @@ public class MainActivity extends Activity {
         return currentWeather;
     }
 
-    public void setUIValues(CurrentWeather current) {
+    public ArrayList<DailyWeather> getDailyWeatherData(String jsonData) throws JSONException {
+        ArrayList<DailyWeather> dailyWeatherList = new ArrayList<>();
+
+        JSONObject jsonObject = new JSONObject(jsonData);
+        JSONObject hourly = jsonObject.getJSONObject("daily");
+        JSONArray data = hourly.getJSONArray("data");
+
+        for (int i = 0; i < data.length(); i++) {
+            DailyWeather dailyWeather = new DailyWeather();
+
+            dailyWeather.setTime(data.getJSONObject(i).getLong("time"));
+            dailyWeather.setMinTemp(data.getJSONObject(i).getDouble("temperatureMin"));
+            dailyWeather.setMaxTemp(data.getJSONObject(i).getDouble("temperatureMax"));
+            dailyWeather.setTimeZone(jsonObject.getString("timezone"));
+            dailyWeatherList.add(dailyWeather);
+        }
+
+        return dailyWeatherList;
+    }
+
+    public void setUIValues(CurrentWeather current, ArrayList<DailyWeather> daily) {
         mTemperature.setText(current.getTemp() + "°");
         mTime.setText("At " + current.getFormatedTime());
         mIcon.setImageResource(current.getIconId());
@@ -152,6 +172,8 @@ public class MainActivity extends Activity {
         mFeels.setText(String.valueOf(current.getFeels())+ "°");
         mWind.setText(String.valueOf(current.getWind()) + "mph");
 
+        DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily);
+        mRecyclerView.setAdapter(adapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
