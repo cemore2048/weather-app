@@ -54,7 +54,10 @@ public class DailyWeather {
 
     public double getPrecip(){
         double precipPercentage = mPrecipitation * 100;
-        return (int) Math.round(precipPercentage);
+
+        int value = (int) Math.round(precipPercentage);
+        System.out.println("ROUNDED PERCENTAGE " + value);
+        return value;
     }
 
     //TODO: actually implement this

@@ -61,10 +61,11 @@ public class CurrentWeather {
 
     public int getPrecip(){
         double precipPercentage = mPrecipitation * 100;
-        return (int) Math.round(precipPercentage);
+        int value = (int) Math.round(precipPercentage);
+        return value;
     }
 
-    //TODO: actually implement this
+
 
     public int getIconId(){
         int iconId = R.drawable.clear_day;
