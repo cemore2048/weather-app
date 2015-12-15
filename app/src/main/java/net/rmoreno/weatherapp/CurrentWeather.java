@@ -13,11 +13,11 @@ public class CurrentWeather {
     String mIcon;
     String mSummary;
     String mTimeZone;
-    int mPrecipitation;
+    double mPrecipitation;
     double mWindSpeed;
     double mFeelsLike;
 
-    public void setPrecip(int precipitation){
+    public void setPrecip(double precipitation){
         mPrecipitation = precipitation;
     }
 

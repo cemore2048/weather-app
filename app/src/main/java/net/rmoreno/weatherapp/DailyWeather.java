@@ -15,10 +15,10 @@ public class DailyWeather {
     String mIcon;
     String mSummary;
     String mTimeZone;
-    int mPrecipitation;
+    double mPrecipitation;
 
 
-    public void setPrecip(int precipitation){
+    public void setPrecip(double precipitation){
         mPrecipitation = precipitation;
     }
 
@@ -52,7 +52,7 @@ public class DailyWeather {
 
     public String getIcon(){return mIcon;}
 
-    public int getPrecip(){
+    public double getPrecip(){
         double precipPercentage = mPrecipitation * 100;
         return (int) Math.round(precipPercentage);
     }

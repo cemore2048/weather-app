@@ -174,6 +174,7 @@ public class MainActivity extends Activity {
         JSONObject hourly = jsonObject.getJSONObject("daily");
         JSONArray data = hourly.getJSONArray("data");
 
+        Log.d(ACTIVITY, String.valueOf(data.getJSONObject(1).getDouble("precipProbability")));
         for (int i = 0; i < data.length(); i++) {
             DailyWeather dailyWeather = new DailyWeather();
 
@@ -181,7 +182,8 @@ public class MainActivity extends Activity {
             dailyWeather.setMinTemp(data.getJSONObject(i).getDouble("temperatureMin"));
             dailyWeather.setMaxTemp(data.getJSONObject(i).getDouble("temperatureMax"));
             dailyWeather.setTimeZone(jsonObject.getString("timezone"));
-            dailyWeather.setPrecip(data.getJSONObject(i).getInt("precipProbability"));
+            dailyWeather.setPrecip(data.getJSONObject(i).getDouble("precipProbability"));
+
             dailyWeatherList.add(dailyWeather);
         }
 

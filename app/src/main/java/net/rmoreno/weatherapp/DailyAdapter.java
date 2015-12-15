@@ -64,6 +64,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         holder.mMinTemperature.setText(String.valueOf(mDataset.get(position).getMinTemp())+ "° - ");
         holder.mMaxTemperature.setText(String.valueOf(mDataset.get(position).getMaxTemp()) + "°");
         holder.mPrecip.setText(String.valueOf(mDataset.get(position).getPrecip()) + "%");
+        System.out.println("PRECIPITATION CHANCE AT " + position + " index " + mDataset.get(position).getPrecip());
 
 
         if(position % 4 == 0){
