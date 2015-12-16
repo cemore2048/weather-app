@@ -63,6 +63,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         }
         holder.mMinTemperature.setText(String.valueOf(mDataset.get(position).getMinTemp())+ "° - ");
         holder.mMaxTemperature.setText(String.valueOf(mDataset.get(position).getMaxTemp()) + "°");
+
+        //don't know why the rounding in the 'DailyWeather' class didn't work
         holder.mPrecip.setText(String.valueOf(((int) Math.round(mDataset.get(position).getPrecip()))) + "%");
         System.out.println("PRECIPITATION CHANCE AT " + position + " index " + mDataset.get(position).getPrecip());
 
