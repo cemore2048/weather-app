@@ -7,5 +7,6 @@
     <string name="title_activity_daily">DailyActivity</string>
     <string name="open_location_settings">Open Settings</string>
     <string name="Cancel">Cancel</string>
+    <string name="title_activity_intro">IntroActivity</string>
 
 </resources>

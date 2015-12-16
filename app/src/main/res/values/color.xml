@@ -7,4 +7,5 @@
     <item name="teal" type="color">#45B29D</item>
     <item name="yellow" type="color">#EFC94C</item>
     <item name="red" type="color">#DF5A49</item>
+    <item name ="light_blue" type="color">#3498DB</item>
 </resources>

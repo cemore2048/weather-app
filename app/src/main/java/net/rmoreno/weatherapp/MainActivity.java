@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
         if(sweater == 0){
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
+            return;
         }
 
 
