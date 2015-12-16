@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     String ACTIVITY = "MAIN ACTIVITY";
+    String SHARED_PREFERENCES = "MyPrefs";
     ArrayList<DailyWeather> mDailyWeather;
     CurrentWeather mCurrentWeather;
     CardView mCardView;
@@ -64,6 +66,16 @@ public class MainActivity extends Activity {
 
 
         //set shared preferences to detect if user has a 'sweater weather'
+
+        SharedPreferences sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        int sweater = sweaterWeather.getInt("sweater", 0);
+
+        if(sweater == 0){
+            Intent intent = new Intent(MainActivity.this, IntroActivity.class);
+            startActivity(intent);
+        }
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

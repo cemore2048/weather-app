@@ -77,18 +77,18 @@ public class CurrentWeather {
 //        else if (mIcon.equals("clear-night")) {
 //            iconId = R.drawable.clear_night;
 //        }
-//        else if (mIcon.equals("rain")) {
-//            iconId = R.drawable.rain;
-//        }
+        else if (mIcon.equals("rain")) {
+            iconId = R.drawable.rain;
+        }
 //        else if (mIcon.equals("snow")) {
 //            iconId = R.drawable.snow;
 //        }
 //        else if (mIcon.equals("sleet")) {
 //            iconId = R.drawable.sleet;
 //        }
-//        else if (mIcon.equals("wind")) {
-//            iconId = R.drawable.wind;
-//        }
+        else if (mIcon.equals("wind")) {
+            iconId = R.drawable.windy;
+        }
 //        else if (mIcon.equals("fog")) {
 //            iconId = R.drawable.fog;
 //        }
