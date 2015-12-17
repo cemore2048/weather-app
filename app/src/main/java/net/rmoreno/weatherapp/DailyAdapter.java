@@ -1,6 +1,7 @@
 package net.rmoreno.weatherapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,10 +38,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
 
     ArrayList<DailyWeather> mDataset;
     Context mContext;
+    int mSweaterTemp;
 
-    public DailyAdapter(Context context, ArrayList<DailyWeather> hourly){
+    public DailyAdapter(Context context, ArrayList<DailyWeather> hourly, int sweaterTemp){
         mContext = context;
         mDataset = hourly;
+        mSweaterTemp = sweaterTemp;
     }
 
     @Override
@@ -68,20 +71,25 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         holder.mPrecip.setText(String.valueOf(((int) Math.round(mDataset.get(position).getPrecip()))) + "%");
         System.out.println("PRECIPITATION CHANCE AT " + position + " index " + mDataset.get(position).getPrecip());
 
+        if(mDataset.get(position).getMinTemp() < mSweaterTemp){
+            holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.light_blue));
+        } else{
 
-        if(position % 4 == 0){
-            holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.teal));
-        }
-        else if(position % 4 == 1){
-            holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.yellow));
+            if(position % 4 == 0){
+                holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.teal));
+            }
+            else if(position % 4 == 1){
+                holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.yellow));
 
+            }
+            else if(position % 4  == 2){
+                holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.orange));
+            }
+            else if(position % 4 == 3){
+                holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.red));
+            }
         }
-        else if(position % 4  == 2){
-            holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.orange));
-        }
-        else if(position % 4 == 3){
-            holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.red));
-        }
+
 
     }
 

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -56,6 +57,9 @@ public class MainActivity extends Activity {
 
     ImageView mIcon;
 
+    int mSweaterTemp;
+
+
 
     //take in
 
@@ -68,12 +72,16 @@ public class MainActivity extends Activity {
         //set shared preferences to detect if user has a 'sweater weather'
 
         SharedPreferences sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int sweater = sweaterWeather.getInt("sweater", 0);
+        mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
-        if(sweater == 0){
+        Log.d(ACTIVITY + "SWEATER", String.valueOf(mSweaterTemp));
+
+        if(mSweaterTemp == 0){
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
-            return;
+
+
+            Toast.makeText(MainActivity.this, "sweater is 0", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -139,7 +147,7 @@ public class MainActivity extends Activity {
                             @Override
                             public void run() {
 
-                                setUIValues(mCurrentWeather, mDailyWeather);
+                                setUIValues(mCurrentWeather, mDailyWeather, mSweaterTemp);
                                 Log.d(ACTIVITY, "onclick listener set");
                                 mCardView.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -205,7 +213,7 @@ public class MainActivity extends Activity {
         return dailyWeatherList;
     }
 
-    public void setUIValues(CurrentWeather current, ArrayList<DailyWeather> daily) {
+    public void setUIValues(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
         mTemperature.setText(current.getTemp() + "°");
         mTime.setText("At " + current.getFormatedTime());
         mIcon.setImageResource(current.getIconId());
@@ -214,7 +222,7 @@ public class MainActivity extends Activity {
         mFeels.setText(String.valueOf(current.getFeels())+ "°");
         mWind.setText(String.valueOf(current.getWind()) + "mph");
 
-        DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily);
+        DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily, sweaterTemp);
         mRecyclerView.setAdapter(adapter);
     }
 

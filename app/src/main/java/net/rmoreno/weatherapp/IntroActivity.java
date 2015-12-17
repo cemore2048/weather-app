@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class IntroActivity extends ActionBarActivity {
+public class IntroActivity extends Activity {
 
     String PREF = "MyPrefs";
     Button mDone;
@@ -24,7 +24,7 @@ public class IntroActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        getSupportActionBar().hide();
+
 
         mDone = (Button) findViewById(R.id.done);
         mTemperature = (EditText) findViewById(R.id.temperature);
@@ -33,7 +33,7 @@ public class IntroActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 int temperature = Integer.parseInt(mTemperature.getText().toString());
-                SharedPreferences preferences = getSharedPreferences(PREF, 0);
+                SharedPreferences preferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = preferences.edit();
                 edit.putInt("sweater", temperature);
                 edit.commit();
