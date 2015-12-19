@@ -8,5 +8,6 @@
     <string name="open_location_settings">Open Settings</string>
     <string name="Cancel">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>
