@@ -308,6 +308,9 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if(id == R.id.set_sweather) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
