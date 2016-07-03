@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.rmoreno.weatherapp.adapters.HourlyAdapter;
+import net.rmoreno.weatherapp.models.HourlyWeather;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

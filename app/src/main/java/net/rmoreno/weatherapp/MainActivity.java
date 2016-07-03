@@ -30,6 +30,10 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import net.rmoreno.weatherapp.adapters.DailyAdapter;
+import net.rmoreno.weatherapp.models.CurrentWeather;
+import net.rmoreno.weatherapp.models.DailyWeather;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,10 +63,6 @@ public class MainActivity extends Activity {
 
     int mSweaterTemp;
 
-
-
-    //take in
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,14 +76,12 @@ public class MainActivity extends Activity {
 
         Log.d(ACTIVITY + "SWEATER", String.valueOf(mSweaterTemp));
 
-        if(mSweaterTemp == 0){
+        if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
 
-
             Toast.makeText(MainActivity.this, "sweater is 0", Toast.LENGTH_SHORT).show();
         }
-
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -99,10 +97,7 @@ public class MainActivity extends Activity {
 
         mIcon = (ImageView) findViewById(R.id.current_icon);
 
-
-
-        if(isNetworkAvailible()){
-
+        if(isNetworkAvailible()) {
             getLocation();
         }
     }
@@ -113,6 +108,7 @@ public class MainActivity extends Activity {
 
         getLocation();
     }
+
     public void getWeather(double latitude, double longitude){
 
         Log.d(ACTIVITY, String.valueOf(longitude) + " " + String.valueOf(latitude));
@@ -169,6 +165,7 @@ public class MainActivity extends Activity {
             }
         });
     }
+
     public CurrentWeather getCurrentWeatherData(String jsonData) throws JSONException{
 
         CurrentWeather currentWeather = new CurrentWeather();
@@ -237,8 +234,6 @@ public class MainActivity extends Activity {
         return isAvailable;
     }
 
-
-
     public boolean isLocationEnabled(Context context, LocationManager lm){
         boolean gps_enabled = false;
         boolean network_enabled = false;
@@ -281,17 +276,17 @@ public class MainActivity extends Activity {
         dialog.show();
     }
 
-    public void getLocation(){
+    public void getLocation() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new MyLocationListener();
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0, locationListener);
-        if(isLocationEnabled(MainActivity.this, lm)){
+        if(isLocationEnabled(MainActivity.this, lm)) {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d("LOCATION",String.valueOf(location.getLatitude()));
             getWeather(location.getLatitude(), location.getLongitude());
 
-        }else{
+        } else {
             buildDialog(MainActivity.this);
         }
     }

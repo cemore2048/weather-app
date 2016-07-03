@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.rmoreno.weatherapp.models.HourlyWeather;
+import net.rmoreno.weatherapp.R;
 
 import java.util.ArrayList;
 

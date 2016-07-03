@@ -1,4 +1,6 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.models;
+
+import net.rmoreno.weatherapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
