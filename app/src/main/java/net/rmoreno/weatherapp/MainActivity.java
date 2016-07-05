@@ -74,8 +74,6 @@ public class MainActivity extends Activity {
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
-        Log.d(ACTIVITY + "SWEATER", String.valueOf(mSweaterTemp));
-
         if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
@@ -139,7 +137,7 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Response response) throws IOException {
 
-                try{
+                try {
                     String jsonData = response.body().string();
                     final String passingData = jsonData;
 
@@ -162,7 +160,7 @@ public class MainActivity extends Activity {
                             }
                         });
                     }
-                } catch(JSONException e){
+                } catch(JSONException e) {
                     Log.d(ACTIVITY + " JSONEXCEPTION", e.getMessage());
                 } catch(IOException e){
                     Log.d(ACTIVITY + " IOEXCEPTION", e.getMessage());
