@@ -40,10 +40,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class MainActivity extends Activity {
 
+    SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
     String SHARED_PREFERENCES = "MyPrefs";
     ArrayList<DailyWeather> mDailyWeather;
@@ -62,16 +64,14 @@ public class MainActivity extends Activity {
     ImageView mIcon;
 
     int mSweaterTemp;
-
+    int REQUEST_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //set shared preferences to detect if user has a 'sweater weather'
-
-        SharedPreferences sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
         Log.d(ACTIVITY + "SWEATER", String.valueOf(mSweaterTemp));
@@ -79,7 +79,6 @@ public class MainActivity extends Activity {
         if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
-
             Toast.makeText(MainActivity.this, "sweater is 0", Toast.LENGTH_SHORT).show();
         }
 
@@ -107,6 +106,18 @@ public class MainActivity extends Activity {
         super.onResume();
 
         getLocation();
+        mSweaterTemp = sweaterWeather.getInt("sweater", 0);
+        Map<String, ?> map = sweaterWeather.getAll();
+        for(Map.Entry<String,?> entry : map.entrySet()){
+            Log.d("map values",entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public void getWeather(double latitude, double longitude){
@@ -119,7 +130,6 @@ public class MainActivity extends Activity {
                 .build();
 
         Call call = client.newCall(request);
-
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -134,15 +144,12 @@ public class MainActivity extends Activity {
                     final String passingData = jsonData;
 
                     if(response.isSuccessful()) {
-
                         mCurrentWeather = getCurrentWeatherData(jsonData);
                         //change to daily weather
                         mDailyWeather = getDailyWeatherData(jsonData);
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
                                 setUIValues(mCurrentWeather, mDailyWeather, mSweaterTemp);
                                 Log.d(ACTIVITY, "onclick listener set");
                                 mCardView.setOnClickListener(new View.OnClickListener() {
@@ -155,13 +162,11 @@ public class MainActivity extends Activity {
                             }
                         });
                     }
-
                 } catch(JSONException e){
                     Log.d(ACTIVITY + " JSONEXCEPTION", e.getMessage());
                 } catch(IOException e){
                     Log.d(ACTIVITY + " IOEXCEPTION", e.getMessage());
                 }
-
             }
         });
     }
@@ -203,7 +208,6 @@ public class MainActivity extends Activity {
             dailyWeather.setMaxTemp(data.getJSONObject(i).getDouble("temperatureMax"));
             dailyWeather.setTimeZone(jsonObject.getString("timezone"));
             dailyWeather.setPrecip(data.getJSONObject(i).getDouble("precipProbability"));
-
             dailyWeatherList.add(dailyWeather);
         }
 
@@ -261,7 +265,7 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                 // TODO Auto-generated method stub
                 Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(myIntent);
+                startActivityForResult(myIntent, REQUEST_CODE);
                 //get gps
             }
         });

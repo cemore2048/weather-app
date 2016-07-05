@@ -24,8 +24,6 @@ public class IntroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-
-
         mDone = (Button) findViewById(R.id.done);
         mTemperature = (EditText) findViewById(R.id.temperature);
 
@@ -42,11 +40,5 @@ public class IntroActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-
-
     }
-
-
-
 }
