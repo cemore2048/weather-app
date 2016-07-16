@@ -1,4 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-   <item android:id="@+id/set_sweather" android:title="Sweather"></item>
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:compat="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+   <item android:id="@+id/set_sweather"
+         android:title="Sweather"
+         android:icon="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+         compat:showAsAction="always"></item>
 </menu>
