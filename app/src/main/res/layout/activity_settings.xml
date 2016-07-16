@@ -13,15 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/step_one"
-        android:layout_centerHorizontal="true"
-        android:gravity="center">
+        android:layout_centerInParent="true"
+        android:gravity="center" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:text="What's your sweater weather?"/>
+            android:text="What's your sweater weather?" />
 
         <EditText
             android:id="@+id/temperature"
@@ -34,21 +34,18 @@
             android:hint="Farenheit"
             android:inputType="phone"
             android:imeOptions="actionDone"
-            android:singleLine="true"/>
-
+            android:singleLine="true" />
     </LinearLayout>
 
     <Button
         android:id="@+id/done"
         android:text="Done"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:layout_alignParentBottom="true"
+        android:textColor="#3498DB"
+        android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_width="270dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/button_selector"
-        />
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/temperature_layout"
+        android:background="@drawable/button_selector" />
 
 </RelativeLayout>
