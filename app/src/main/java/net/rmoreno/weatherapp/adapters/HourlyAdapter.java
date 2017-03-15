@@ -8,14 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.rmoreno.weatherapp.models.HourlyWeather;
 import net.rmoreno.weatherapp.R;
+import net.rmoreno.weatherapp.models.HourlyWeather;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rafa on 12/10/15.
- */
 public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{

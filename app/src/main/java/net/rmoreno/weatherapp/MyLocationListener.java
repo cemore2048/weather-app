@@ -4,11 +4,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 
-/**
- * Created by Rafa on 12/12/15.
- */
+
 public class MyLocationListener implements LocationListener{
 
 

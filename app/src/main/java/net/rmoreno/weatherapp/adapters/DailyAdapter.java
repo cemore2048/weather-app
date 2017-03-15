@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.rmoreno.weatherapp.models.DailyWeather;
 import net.rmoreno.weatherapp.R;
+import net.rmoreno.weatherapp.models.DailyWeather;
 
 import java.util.ArrayList;
 
