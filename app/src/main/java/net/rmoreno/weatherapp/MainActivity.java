@@ -48,20 +48,20 @@ public class MainActivity extends Activity {
     SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
     String SHARED_PREFERENCES = "MyPrefs";
-    ArrayList<DailyWeather> mDailyWeather;
-    CurrentWeather mCurrentWeather;
-    CardView mCardView;
+    ArrayList<DailyWeather> dailyWeather;
+    CurrentWeather currentWeather;
+    CardView cardView;
 
     RecyclerView mRecyclerView;
 
-    TextView mTemperature;
-    TextView mSummary;
-    TextView mTime;
-    TextView mPrecipitation;
-    TextView mWind;
-    TextView mFeels;
+    TextView temperature;
+    TextView summary;
+    TextView time;
+    TextView precipitation;
+    TextView wind;
+    TextView feelsLike;
 
-    ImageView mIcon;
+    ImageView icon;
 
     int mSweaterTemp;
     int REQUEST_CODE = 100;
@@ -83,16 +83,16 @@ public class MainActivity extends Activity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mCardView = (CardView) findViewById(R.id.currentData);
+        cardView = (CardView) findViewById(R.id.currentData);
 
-        mTemperature = (TextView) findViewById(R.id.temperature);
-        mSummary = (TextView) findViewById(R.id.summary_text);
-        mTime = (TextView) findViewById(R.id.time);
-        mPrecipitation = (TextView) findViewById(R.id.precipitation);
-        mFeels = (TextView) findViewById(R.id.feels);
-        mWind = (TextView) findViewById(R.id.wind);
+        temperature = (TextView) findViewById(R.id.temperature);
+        summary = (TextView) findViewById(R.id.summary_text);
+        time = (TextView) findViewById(R.id.time);
+        precipitation = (TextView) findViewById(R.id.precipitation);
+        feelsLike = (TextView) findViewById(R.id.feels);
+        wind = (TextView) findViewById(R.id.wind);
 
-        mIcon = (ImageView) findViewById(R.id.current_icon);
+        icon = (ImageView) findViewById(R.id.current_icon);
 
         if(isNetworkAvailible()) {
             getLocation();
@@ -142,15 +142,15 @@ public class MainActivity extends Activity {
                     final String passingData = jsonData;
 
                     if(response.isSuccessful()) {
-                        mCurrentWeather = getCurrentWeatherData(jsonData);
+                        currentWeather = getCurrentWeatherData(jsonData);
                         //change to daily weather
-                        mDailyWeather = getDailyWeatherData(jsonData);
+                        dailyWeather = getDailyWeatherData(jsonData);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                setUIValues(mCurrentWeather, mDailyWeather, mSweaterTemp);
+                                setUIValues(currentWeather, dailyWeather, mSweaterTemp);
                                 Log.d(ACTIVITY, "onclick listener set");
-                                mCardView.setOnClickListener(new View.OnClickListener() {
+                                cardView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(MainActivity.this, HourlyActivity.class);
@@ -213,13 +213,13 @@ public class MainActivity extends Activity {
     }
 
     public void setUIValues(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
-        mTemperature.setText(current.getTemp() + "°");
-        mTime.setText("At " + current.getFormatedTime());
-        mIcon.setImageResource(current.getIconId());
-        mSummary.setText(current.getSummary());
-        mPrecipitation.setText(String.valueOf(current.getPrecip())+"%");
-        mFeels.setText(String.valueOf(current.getFeels())+ "°");
-        mWind.setText(String.valueOf(current.getWind()) + "mph");
+        temperature.setText(current.getTemp() + "°");
+        time.setText("At " + current.getFormatedTime());
+        icon.setImageResource(current.getIconId());
+        summary.setText(current.getSummary());
+        precipitation.setText(String.valueOf(current.getPrecip())+"%");
+        feelsLike.setText(String.valueOf(current.getFeels())+ "°");
+        wind.setText(String.valueOf(current.getWind()) + "mph");
 
         DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily, sweaterTemp);
         mRecyclerView.setAdapter(adapter);
