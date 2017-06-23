@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements DailyWeatherView{
 
     SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
     TextView feelsLike;
 
     ImageView icon;
+    DailyWeatherPresenter dailyWeatherPresenter;
 
     int mSweaterTemp;
     int REQUEST_CODE = 100;
@@ -73,6 +74,8 @@ public class MainActivity extends Activity {
         //set shared preferences to detect if user has a 'sweater weather'
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
+
+        dailyWeatherPresenter = new DailyWeatherPresenterImpl();
 
         if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
@@ -121,52 +124,7 @@ public class MainActivity extends Activity {
     public void getWeather(double latitude, double longitude){
 
         Log.d(ACTIVITY, String.valueOf(longitude) + " " + String.valueOf(latitude));
-        String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + latitude + "," + longitude;
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(URL)
-                .build();
 
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-
-                try {
-                    String jsonData = response.body().string();
-                    final String passingData = jsonData;
-
-                    if(response.isSuccessful()) {
-                        currentWeather = getCurrentWeatherData(jsonData);
-                        //change to daily weather
-                        dailyWeather = getDailyWeatherData(jsonData);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setUIValues(currentWeather, dailyWeather, mSweaterTemp);
-                                Log.d(ACTIVITY, "onclick listener set");
-                                cardView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(MainActivity.this, HourlyActivity.class);
-                                        intent.putExtra("hourly", passingData);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                } catch(JSONException e) {
-                    Log.d(ACTIVITY + " JSONEXCEPTION", e.getMessage());
-                } catch(IOException e){
-                    Log.d(ACTIVITY + " IOEXCEPTION", e.getMessage());
-                }
-            }
-        });
     }
 
     public CurrentWeather getCurrentWeatherData(String jsonData) throws JSONException{
@@ -212,7 +170,7 @@ public class MainActivity extends Activity {
         return dailyWeatherList;
     }
 
-    public void setUIValues(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
+    public void displayDailyWeather(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
         temperature.setText(current.getTemp() + "°");
         time.setText("At " + current.getFormatedTime());
         icon.setImageResource(current.getIconId());
