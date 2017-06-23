@@ -6,4 +6,5 @@ public interface DailyWeatherPresenter extends Presenter {
 
     DailyWeather getDailyWeather(float lat, float lng);
 
+
 }
