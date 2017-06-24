@@ -58,6 +58,7 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
                     String jsonData = response.body().string();
                     if (response.isSuccessful()) {
                         CurrentWeather currentWeather = getCurrentWeatherData(jsonData);
+                        ArrayList<DailyWeather> dailyWeather = getDailyWeatherData(jsonData);
                         view.displayDailyWeather();
                     }
                 }  catch(JSONException e) {

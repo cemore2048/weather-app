@@ -123,10 +123,6 @@ public class MainActivity extends Activity implements DailyWeatherView{
 
     }
 
-
-
-
-
     public void displayDailyWeather(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
         temperature.setText(current.getTemp() + "°");
         time.setText("At " + current.getFormatedTime());
