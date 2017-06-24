@@ -14,7 +14,5 @@ public class WeatherNetwork {
                 .build();
 
         client.newCall(request).enqueue(callback);
-
-        return;
     }
 }
