@@ -111,6 +111,7 @@ public class MainActivity extends Activity implements DailyWeatherView{
     public void displayDailyWeather() {
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
