@@ -24,7 +24,6 @@ public class WeatherRepository {
             @Override
             public void onResponse(Response response) throws IOException {
                 try{
-                    String jsonData = response.body().string();
                     if (response.isSuccessful()) {
                         callback.onResponse(response);
                     }

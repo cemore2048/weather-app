@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements WeatherView {
     TextView feelsLike;
 
     ImageView icon;
-    WeatherPresenter weatherPresenter;
+    public WeatherPresenter weatherPresenter;
 
     int mSweaterTemp;
     int REQUEST_CODE = 100;
@@ -67,7 +67,6 @@ public class MainActivity extends Activity implements WeatherView {
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
-        //TODO idk wtf here
         weatherPresenter = new WeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
 
         if(mSweaterTemp == 0) {

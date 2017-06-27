@@ -22,7 +22,7 @@ public class WeatherPresenterImpl implements WeatherPresenter {
     public WeatherView view;
     public WeatherInteractor weatherInteractor;
 
-    WeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
+    public WeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
         this.view = view;
         this.weatherInteractor = weatherInteractor;
     }

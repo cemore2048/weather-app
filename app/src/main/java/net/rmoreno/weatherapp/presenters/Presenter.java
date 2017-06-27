@@ -13,7 +13,7 @@ public interface  Presenter {
 
     void destroy();
 
-    public interface WeatherCallback {
+    interface WeatherCallback {
         void onWeatherRetrieved(Response response);
 
         void onFailure(Request request, IOException e);

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class WeatherInteractor {
 
-    private WeatherRepository repo = new WeatherRepository();
+    public WeatherRepository repo = new WeatherRepository();
 
     public WeatherInteractor(WeatherRepository repo) {
         this.repo = repo;
