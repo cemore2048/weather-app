@@ -35,28 +35,4 @@ public class WeatherRepository {
             }
         });
     }
-
-    public void getDailyWeather(float lat, float lng, final Callback callback) {
-        network.getCurrentWeather(lat, lng, new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                callback.onFailure(request, e);
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try{
-                    String jsonData = response.body().string();
-                    if (response.isSuccessful()) {
-                        callback.onResponse(response);
-                    }
-                } catch(IOException e){
-                    Log.d("DWPresent" + " IOEXCEPTION", e.getMessage());
-                }
-
-            }
-        });
-    }
-
-
 }

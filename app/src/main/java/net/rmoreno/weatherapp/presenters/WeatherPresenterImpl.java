@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class WeatherPresenterImpl implements WeatherPresenter {
 
-    private WeatherView view;
-    private WeatherInteractor weatherInteractor;
+    public WeatherView view;
+    public WeatherInteractor weatherInteractor;
 
     WeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
         this.view = view;

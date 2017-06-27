@@ -114,12 +114,6 @@ public class MainActivity extends Activity implements WeatherView {
 
     }
 
-    public void getWeather(double latitude, double longitude){
-
-        Log.d(ACTIVITY, String.valueOf(longitude) + " " + String.valueOf(latitude));
-
-    }
-
     private boolean isNetworkAvailible() {
         ConnectivityManager manager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -131,7 +125,7 @@ public class MainActivity extends Activity implements WeatherView {
         return isAvailable;
     }
 
-    public boolean isLocationEnabled(Context context, LocationManager lm){
+    public boolean isLocationEnabled(LocationManager lm){
         boolean gps_enabled = false;
         boolean network_enabled = false;
 
@@ -174,7 +168,6 @@ public class MainActivity extends Activity implements WeatherView {
         dialog.setPositiveButton(context.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                // TODO Auto-generated method stub
                 Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivityForResult(myIntent, REQUEST_CODE);
                 //get gps
@@ -184,7 +177,6 @@ public class MainActivity extends Activity implements WeatherView {
 
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -196,7 +188,7 @@ public class MainActivity extends Activity implements WeatherView {
         LocationListener locationListener = new MyLocationListener();
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0, locationListener);
-        if(isLocationEnabled(MainActivity.this, lm)) {
+        if(isLocationEnabled(lm)) {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d("LOCATION",String.valueOf(location.getLatitude()));
             weatherPresenter.getCurrentWeather(location.getLatitude(), location.getLongitude());
