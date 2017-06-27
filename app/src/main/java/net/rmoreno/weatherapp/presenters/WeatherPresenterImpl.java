@@ -1,10 +1,12 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.presenters;
 
 import android.util.Log;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import net.rmoreno.weatherapp.WeatherInteractor;
+import net.rmoreno.weatherapp.ui.WeatherView;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
 
@@ -15,12 +17,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
+public class WeatherPresenterImpl implements WeatherPresenter {
 
     private WeatherView view;
     private WeatherInteractor weatherInteractor;
 
-    DailyWeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
+    WeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
         this.view = view;
         this.weatherInteractor = weatherInteractor;
     }
@@ -41,7 +43,7 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
     }
 
     @Override
-    public void getCurrentWeather(float lat, float lng) {
+    public void getCurrentWeather(double lat, double lng) {
         weatherInteractor.getWeatherData(lat, lng, new WeatherCallback() {
             @Override
             public void onWeatherRetrieved(Response response) {
@@ -65,7 +67,7 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
         });
     }
     @Override
-    public void getDailyWeather(float lat, float lng) {
+    public void getDailyWeather(double lat, double lng) {
         weatherInteractor.getWeatherData(lat, lng, new WeatherCallback() {
             @Override
             public void onWeatherRetrieved(Response response) {

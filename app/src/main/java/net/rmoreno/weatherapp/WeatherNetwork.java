@@ -6,7 +6,7 @@ import com.squareup.okhttp.Request;
 
 public class WeatherNetwork {
 
-    public void getDailyWeather(float lat, float lng, Callback callback) {
+    public void getDailyWeather(double lat, double lng, Callback callback) {
         String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + lat + "," + lng;
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -16,7 +16,7 @@ public class WeatherNetwork {
         client.newCall(request).enqueue(callback);
     }
 
-    public void getCurrentWeather(float lat, float lng, Callback callback) {
+    public void getCurrentWeather(double lat, double lng, Callback callback) {
         String URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/" + lat + "," + lng;
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

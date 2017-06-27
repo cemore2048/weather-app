@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.repositories;
 
 import android.util.Log;
 
@@ -6,13 +6,15 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import net.rmoreno.weatherapp.WeatherNetwork;
+
 import java.io.IOException;
 
 public class WeatherRepository {
 
     WeatherNetwork network = new WeatherNetwork();
 
-    public void getCurrentWeather(float lat, float lng, final Callback callback) {
+    public void getCurrentWeather(double lat, double lng, final Callback callback) {
         network.getDailyWeather(lat, lng, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {

@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.presenters;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

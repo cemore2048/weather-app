@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.rmoreno.weatherapp.R;
 import net.rmoreno.weatherapp.adapters.HourlyAdapter;
 import net.rmoreno.weatherapp.models.HourlyWeather;
 

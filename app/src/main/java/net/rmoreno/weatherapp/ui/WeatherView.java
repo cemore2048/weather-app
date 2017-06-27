@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.ui;
 
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;

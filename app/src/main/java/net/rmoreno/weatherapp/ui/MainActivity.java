@@ -1,4 +1,4 @@
-package net.rmoreno.weatherapp;
+package net.rmoreno.weatherapp.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,9 +23,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.rmoreno.weatherapp.MyLocationListener;
+import net.rmoreno.weatherapp.R;
+import net.rmoreno.weatherapp.WeatherInteractor;
+import net.rmoreno.weatherapp.repositories.WeatherRepository;
 import net.rmoreno.weatherapp.adapters.DailyAdapter;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
+import net.rmoreno.weatherapp.presenters.WeatherPresenter;
+import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -37,7 +43,6 @@ public class MainActivity extends Activity implements WeatherView {
     String ACTIVITY = "MAIN ACTIVITY";
     String SHARED_PREFERENCES = "MyPrefs";
     ArrayList<DailyWeather> dailyWeather;
-    CurrentWeather currentWeather;
     CardView cardView;
 
     RecyclerView mRecyclerView;
@@ -50,7 +55,7 @@ public class MainActivity extends Activity implements WeatherView {
     TextView feelsLike;
 
     ImageView icon;
-    DailyWeatherPresenter dailyWeatherPresenter;
+    WeatherPresenter weatherPresenter;
 
     int mSweaterTemp;
     int REQUEST_CODE = 100;
@@ -63,7 +68,7 @@ public class MainActivity extends Activity implements WeatherView {
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
-        dailyWeatherPresenter = new DailyWeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
+        weatherPresenter = new WeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
 
         if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
@@ -115,10 +120,6 @@ public class MainActivity extends Activity implements WeatherView {
 
     }
 
-    public void displayDailyWeather(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
-
-    }
-
     private boolean isNetworkAvailible() {
         ConnectivityManager manager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -167,16 +168,6 @@ public class MainActivity extends Activity implements WeatherView {
         wind.setText(String.valueOf(currentWeather.getWind()) + "mph");
     }
 
-    @Override
-    public void updateDailyWeather() {
-        //TODO update the daily weather
-    }
-
-    @Override
-    public void updateCurrentWeather() {
-        //TODO update the current weather
-    }
-
     public void buildDialog(Context context){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setMessage("GPS network is not enabled");
@@ -208,7 +199,7 @@ public class MainActivity extends Activity implements WeatherView {
         if(isLocationEnabled(MainActivity.this, lm)) {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d("LOCATION",String.valueOf(location.getLatitude()));
-            getWeather(location.getLatitude(), location.getLongitude());
+            weatherPresenter.getCurrentWeather(location.getLatitude(), location.getLongitude());
 
         } else {
             buildDialog(MainActivity.this);
@@ -223,9 +214,7 @@ public class MainActivity extends Activity implements WeatherView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
