@@ -42,7 +42,6 @@ public class MainActivity extends Activity implements WeatherView {
     SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
     String SHARED_PREFERENCES = "MyPrefs";
-    ArrayList<DailyWeather> dailyWeather;
     CardView cardView;
 
     RecyclerView mRecyclerView;
@@ -68,6 +67,7 @@ public class MainActivity extends Activity implements WeatherView {
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
+        //TODO idk wtf here
         weatherPresenter = new WeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
 
         if(mSweaterTemp == 0) {
@@ -200,6 +200,7 @@ public class MainActivity extends Activity implements WeatherView {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Log.d("LOCATION",String.valueOf(location.getLatitude()));
             weatherPresenter.getCurrentWeather(location.getLatitude(), location.getLongitude());
+            weatherPresenter.getDailyWeather(location.getLatitude(), location.getLongitude());
 
         } else {
             buildDialog(MainActivity.this);
