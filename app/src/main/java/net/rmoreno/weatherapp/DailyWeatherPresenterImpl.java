@@ -2,20 +2,27 @@ package net.rmoreno.weatherapp;
 
 import android.util.Log;
 
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
 
-    DailyWeatherView view;
+    private WeatherView view;
+    private WeatherInteractor weatherInteractor;
 
-    DailyWeatherPresenterImpl(DailyWeatherView view) {
+    DailyWeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
         this.view = view;
+        this.weatherInteractor = weatherInteractor;
     }
 
     @Override
@@ -25,7 +32,7 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
 
     @Override
     public void destroy() {
-
+        view = null;
     }
 
     @Override
@@ -34,13 +41,53 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
     }
 
     @Override
-    public DailyWeather getDailyWeather(float lat, float lng) {
+    public void getCurrentWeather(float lat, float lng) {
+        weatherInteractor.getWeatherData(lat, lng, new WeatherCallback() {
+            @Override
+            public void onWeatherRetrieved(Response response) {
+                try{
+                    String jsonData = response.body().string();
 
-        return new DailyWeather();
+                    CurrentWeather currentWeather = getCurrentWeatherData(jsonData);
+                    view.displayCurrentWeather(currentWeather);
+                } catch (JSONException e) {
+                    Log.d("Present JSON Exception", e.getMessage());
+                } catch (IOException e) {
+                    Log.d("Present IO Exception", e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+        });
     }
+    @Override
+    public void getDailyWeather(float lat, float lng) {
+        weatherInteractor.getWeatherData(lat, lng, new WeatherCallback() {
+            @Override
+            public void onWeatherRetrieved(Response response) {
+                try{
+                    String jsonData = response.body().string();
 
+                    ArrayList<DailyWeather> dailyWeather = getDailyWeatherData(jsonData);
+                    view.displayDailyWeather(dailyWeather);
+                } catch (JSONException e) {
+                    Log.d("Present JSON Exception", e.getMessage());
+                } catch (IOException e) {
+                    Log.d("Present IO Exception", e.getMessage());
+                }
 
+            }
 
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+        });
+    }
     public ArrayList<DailyWeather> getDailyWeatherData(String jsonData) throws JSONException {
         ArrayList<DailyWeather> dailyWeatherList = new ArrayList<>();
 
@@ -61,6 +108,25 @@ public class DailyWeatherPresenterImpl implements DailyWeatherPresenter {
         }
 
         return dailyWeatherList;
+    }
+
+    private CurrentWeather getCurrentWeatherData(String jsonData) throws JSONException{
+
+        CurrentWeather currentWeather = new CurrentWeather();
+        JSONObject jsonObject = new JSONObject(jsonData);
+
+        JSONObject currently = jsonObject.getJSONObject("currently");
+
+        currentWeather.setTemp(currently.getDouble("temperature"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setTimeZone(jsonObject.getString("timezone"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setPrecip(currently.getInt("precipProbability"));
+        currentWeather.setFeels(currently.getDouble(("apparentTemperature")));
+        currentWeather.setWind(currently.getDouble(("windSpeed")));
+
+        return currentWeather;
     }
 
 }

@@ -27,15 +27,11 @@ import net.rmoreno.weatherapp.adapters.DailyAdapter;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Map;
 
 
-public class MainActivity extends Activity implements DailyWeatherView{
+public class MainActivity extends Activity implements WeatherView {
 
     SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
@@ -67,7 +63,7 @@ public class MainActivity extends Activity implements DailyWeatherView{
         sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         mSweaterTemp = sweaterWeather.getInt("sweater", 0);
 
-        dailyWeatherPresenter = new DailyWeatherPresenterImpl();
+        dailyWeatherPresenter = new DailyWeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
 
         if(mSweaterTemp == 0) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
@@ -108,11 +104,6 @@ public class MainActivity extends Activity implements DailyWeatherView{
     }
 
     @Override
-    public void displayDailyWeather() {
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -125,16 +116,7 @@ public class MainActivity extends Activity implements DailyWeatherView{
     }
 
     public void displayDailyWeather(CurrentWeather current, ArrayList<DailyWeather> daily, int sweaterTemp) {
-        temperature.setText(current.getTemp() + "°");
-        time.setText("At " + current.getFormatedTime());
-        icon.setImageResource(current.getIconId());
-        summary.setText(current.getSummary());
-        precipitation.setText(String.valueOf(current.getPrecip())+"%");
-        feelsLike.setText(String.valueOf(current.getFeels())+ "°");
-        wind.setText(String.valueOf(current.getWind()) + "mph");
 
-        DailyAdapter adapter = new DailyAdapter(MainActivity.this, daily, sweaterTemp);
-        mRecyclerView.setAdapter(adapter);
     }
 
     private boolean isNetworkAvailible() {
@@ -165,6 +147,34 @@ public class MainActivity extends Activity implements DailyWeatherView{
         } else{
             return true;
         }
+    }
+
+    @Override
+    public void displayDailyWeather(ArrayList<DailyWeather> dailyWeather) {
+        //TODO display daily weather
+        DailyAdapter adapter = new DailyAdapter(MainActivity.this, dailyWeather, sweaterTemp);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void displayCurrentWeather(CurrentWeather currentWeather) {
+        temperature.setText(currentWeather.getTemp() + "°");
+        time.setText("At " + currentWeather.getFormatedTime());
+        icon.setImageResource(currentWeather.getIconId());
+        summary.setText(currentWeather.getSummary());
+        precipitation.setText(String.valueOf(currentWeather.getPrecip())+"%");
+        feelsLike.setText(String.valueOf(currentWeather.getFeels())+ "°");
+        wind.setText(String.valueOf(currentWeather.getWind()) + "mph");
+    }
+
+    @Override
+    public void updateDailyWeather() {
+        //TODO update the daily weather
+    }
+
+    @Override
+    public void updateCurrentWeather() {
+        //TODO update the current weather
     }
 
     public void buildDialog(Context context){
@@ -207,7 +217,6 @@ public class MainActivity extends Activity implements DailyWeatherView{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
