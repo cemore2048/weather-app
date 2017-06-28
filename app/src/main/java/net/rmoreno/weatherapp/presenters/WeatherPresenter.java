@@ -6,4 +6,5 @@ public interface WeatherPresenter extends Presenter {
 
     void getCurrentWeather(double lat, double lng);
 
+    boolean firstTime();
 }

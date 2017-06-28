@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface WeatherView {
 
-    void displayDailyWeather(ArrayList<DailyWeather> dailyWeather);
+    void displayDailyWeather(ArrayList<DailyWeather> dailyWeather, int sweaterTemp);
 
     void displayCurrentWeather(CurrentWeather currentWeather);
 }

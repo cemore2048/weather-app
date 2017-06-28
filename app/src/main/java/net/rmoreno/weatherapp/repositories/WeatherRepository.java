@@ -1,5 +1,6 @@
 package net.rmoreno.weatherapp.repositories;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.squareup.okhttp.Callback;
@@ -13,6 +14,11 @@ import java.io.IOException;
 public class WeatherRepository {
 
     WeatherNetwork network = new WeatherNetwork();
+    SharedPreferences preferences;
+
+    public WeatherRepository (SharedPreferences preferences) {
+        this.preferences = preferences;
+    }
 
     public void getCurrentWeather(double lat, double lng, final Callback callback) {
         network.getDailyWeather(lat, lng, new Callback() {
@@ -33,5 +39,9 @@ public class WeatherRepository {
 
             }
         });
+    }
+
+    public int getSweaterTemp() {
+        return preferences.getInt("sweater", 0);
     }
 }

@@ -39,7 +39,6 @@ import java.util.Map;
 
 public class MainActivity extends Activity implements WeatherView {
 
-    SharedPreferences sweaterWeather;
     String ACTIVITY = "MAIN ACTIVITY";
     String SHARED_PREFERENCES = "MyPrefs";
     CardView cardView;
@@ -56,20 +55,25 @@ public class MainActivity extends Activity implements WeatherView {
     ImageView icon;
     public WeatherPresenter weatherPresenter;
 
-    int mSweaterTemp;
     int REQUEST_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //set shared preferences to detect if user has a 'sweater weather'
-        sweaterWeather = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        mSweaterTemp = sweaterWeather.getInt("sweater", 0);
+        //set sharedPreferences preferences to detect if user has a 'sweater weather'
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
-        weatherPresenter = new WeatherPresenterImpl(this, new WeatherInteractor(new WeatherRepository()));
 
-        if(mSweaterTemp == 0) {
+        weatherPresenter = new WeatherPresenterImpl(
+                this,
+                new WeatherInteractor(
+                        new WeatherRepository(sharedPreferences)
+                )
+        );
+
+        //TODO add presenter method 'ifFirstTime'
+        if(weatherPresenter.firstTime()) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
             Toast.makeText(MainActivity.this, "sweater is 0", Toast.LENGTH_SHORT).show();
@@ -99,12 +103,6 @@ public class MainActivity extends Activity implements WeatherView {
         super.onResume();
 
         getLocation();
-        mSweaterTemp = sweaterWeather.getInt("sweater", 0);
-        Map<String, ?> map = sweaterWeather.getAll();
-        for(Map.Entry<String,?> entry : map.entrySet()){
-            Log.d("map values",entry.getKey() + ": " +
-                    entry.getValue().toString());
-        }
     }
 
     @Override
@@ -144,7 +142,7 @@ public class MainActivity extends Activity implements WeatherView {
     }
 
     @Override
-    public void displayDailyWeather(ArrayList<DailyWeather> dailyWeather) {
+    public void displayDailyWeather(ArrayList<DailyWeather> dailyWeather, int sweaterTemp) {
         //TODO display daily weather
         DailyAdapter adapter = new DailyAdapter(MainActivity.this, dailyWeather, sweaterTemp);
         mRecyclerView.setAdapter(adapter);

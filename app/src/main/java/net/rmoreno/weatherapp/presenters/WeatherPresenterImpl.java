@@ -6,6 +6,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import net.rmoreno.weatherapp.WeatherInteractor;
+import net.rmoreno.weatherapp.ui.MainActivity;
 import net.rmoreno.weatherapp.ui.WeatherView;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
@@ -22,7 +23,7 @@ public class WeatherPresenterImpl implements WeatherPresenter {
     public WeatherView view;
     public WeatherInteractor weatherInteractor;
 
-    public WeatherPresenterImpl(WeatherView view, WeatherInteractor weatherInteractor) {
+    public WeatherPresenterImpl(MainActivity view, WeatherInteractor weatherInteractor) {
         this.view = view;
         this.weatherInteractor = weatherInteractor;
     }
@@ -42,6 +43,10 @@ public class WeatherPresenterImpl implements WeatherPresenter {
 
     }
 
+    @Override
+    public boolean firstTime() {
+        return weatherInteractor.getSweaterWeather() == 0 ? false : true;
+    }
     @Override
     public void getCurrentWeather(double lat, double lng) {
         weatherInteractor.getWeatherData(lat, lng, new WeatherCallback() {
@@ -75,7 +80,8 @@ public class WeatherPresenterImpl implements WeatherPresenter {
                     String jsonData = response.body().string();
 
                     ArrayList<DailyWeather> dailyWeather = getDailyWeatherData(jsonData);
-                    view.displayDailyWeather(dailyWeather);
+                    int sweaterWeather = weatherInteractor.getSweaterWeather();
+                    view.displayDailyWeather(dailyWeather, sweaterWeather);
                 } catch (JSONException e) {
                     Log.d("Present JSON Exception", e.getMessage());
                 } catch (IOException e) {

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class WeatherInteractor {
 
-    public WeatherRepository repo = new WeatherRepository();
+    public WeatherRepository repo;
 
     public WeatherInteractor(WeatherRepository repo) {
         this.repo = repo;
@@ -30,6 +30,10 @@ public class WeatherInteractor {
                 weatherCallback.onWeatherRetrieved(response);
             }
         });
+    }
+
+    public int getSweaterWeather() {
+        return repo.getSweaterTemp();
     }
 
 
