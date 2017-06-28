@@ -45,7 +45,7 @@ public class WeatherPresenterImpl implements WeatherPresenter {
 
     @Override
     public boolean firstTime() {
-        return weatherInteractor.getSweaterWeather() == 0 ? false : true;
+        return weatherInteractor.getSweaterWeather() == 0 ? true : false;
     }
     @Override
     public void getCurrentWeather(double lat, double lng) {
