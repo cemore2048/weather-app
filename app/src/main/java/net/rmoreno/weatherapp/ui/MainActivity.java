@@ -26,15 +26,14 @@ import android.widget.Toast;
 import net.rmoreno.weatherapp.MyLocationListener;
 import net.rmoreno.weatherapp.R;
 import net.rmoreno.weatherapp.WeatherInteractor;
-import net.rmoreno.weatherapp.repositories.WeatherRepository;
 import net.rmoreno.weatherapp.adapters.DailyAdapter;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
 import net.rmoreno.weatherapp.presenters.WeatherPresenter;
 import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl;
+import net.rmoreno.weatherapp.repositories.WeatherRepository;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public class MainActivity extends Activity implements WeatherView {
@@ -72,7 +71,6 @@ public class MainActivity extends Activity implements WeatherView {
                 )
         );
 
-        //TODO add presenter method 'ifFirstTime'
         if(weatherPresenter.firstTime()) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
@@ -101,7 +99,7 @@ public class MainActivity extends Activity implements WeatherView {
     @Override
     public void onResume(){
         super.onResume();
-
+        weatherPresenter.resume();
         getLocation();
     }
 
@@ -143,7 +141,6 @@ public class MainActivity extends Activity implements WeatherView {
 
     @Override
     public void displayDailyWeather(ArrayList<DailyWeather> dailyWeather, int sweaterTemp) {
-        //TODO display daily weather
         DailyAdapter adapter = new DailyAdapter(MainActivity.this, dailyWeather, sweaterTemp);
         mRecyclerView.setAdapter(adapter);
     }
@@ -167,9 +164,9 @@ public class MainActivity extends Activity implements WeatherView {
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                 Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivityForResult(myIntent, REQUEST_CODE);
-                //get gps
             }
         });
+
         dialog.setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
 
             @Override
@@ -204,10 +201,8 @@ public class MainActivity extends Activity implements WeatherView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         } else if(id == R.id.set_sweather) {

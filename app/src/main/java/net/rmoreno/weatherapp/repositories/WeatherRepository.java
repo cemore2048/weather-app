@@ -20,8 +20,8 @@ public class WeatherRepository {
         this.preferences = preferences;
     }
 
-    public void getCurrentWeather(double lat, double lng, final Callback callback) {
-        network.getDailyWeather(lat, lng, new Callback() {
+    public void getWeather(double lat, double lng, final Callback callback) {
+        network.getWeather(lat, lng, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 callback.onFailure(request, e);
