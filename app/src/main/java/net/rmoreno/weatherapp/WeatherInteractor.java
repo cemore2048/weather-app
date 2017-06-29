@@ -19,7 +19,7 @@ public class WeatherInteractor {
     }
 
     public void getWeatherData(double lat, double lng, final Presenter.WeatherCallback weatherCallback) {
-        repo.getCurrentWeather(lat, lng, new Callback() {
+        repo.getWeather(lat, lng, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 weatherCallback.onFailure(request, e);

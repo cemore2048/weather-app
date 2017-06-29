@@ -6,10 +6,10 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import net.rmoreno.weatherapp.WeatherInteractor;
-import net.rmoreno.weatherapp.ui.MainActivity;
-import net.rmoreno.weatherapp.ui.WeatherView;
 import net.rmoreno.weatherapp.models.CurrentWeather;
 import net.rmoreno.weatherapp.models.DailyWeather;
+import net.rmoreno.weatherapp.ui.MainActivity;
+import net.rmoreno.weatherapp.ui.WeatherView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +30,7 @@ public class WeatherPresenterImpl implements WeatherPresenter {
 
     @Override
     public void resume() {
-
+        this.view = view;
     }
 
     @Override

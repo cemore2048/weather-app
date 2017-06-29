@@ -20,8 +20,8 @@ public class WeatherRepository {
         this.preferences = preferences;
     }
 
-    public void getCurrentWeather(double lat, double lng, final Callback callback) {
-        network.getDailyWeather(lat, lng, new Callback() {
+    public void getWeather(double lat, double lng, final Callback callback) {
+        network.getWeather(lat, lng, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 callback.onFailure(request, e);
@@ -43,5 +43,14 @@ public class WeatherRepository {
 
     public int getSweaterTemp() {
         return preferences.getInt("sweater", 0);
+    }
+
+    public void updateSweather(int temperature) {
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.remove("sweater");
+        edit.putInt("sweater", temperature);
+        edit.commit();
+        preferences.getInt("sweater", 0);
     }
 }

@@ -12,13 +12,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.rmoreno.weatherapp.R;
+import net.rmoreno.weatherapp.SettingsInteractor;
+import net.rmoreno.weatherapp.presenters.SettingsPresenter;
+import net.rmoreno.weatherapp.presenters.SettingsPresenterImpl;
+import net.rmoreno.weatherapp.repositories.WeatherRepository;
 
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity implements  SettingsView{
 
     Button mDone;
     EditText mTemperature;
     String SHARED_PREFERENCES = "MyPrefs";
+    SettingsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +33,19 @@ public class SettingsActivity extends ActionBarActivity {
         mDone = (Button) findViewById(R.id.done);
         mTemperature = (EditText) findViewById(R.id.temperature);
 
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        new SettingsPresenterImpl(
+                new SettingsInteractor(new WeatherRepository(preferences))
+        );
+
+
         mDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isValidInput((mTemperature.getText().toString()))) {
-                    SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = preferences.edit();
-
-                    int updateSweater = Integer.parseInt(mTemperature.getText().toString());
-                    edit.remove("sweater");
-                    edit.putInt("sweater", updateSweater);
-                    edit.commit();
-                    preferences.getInt("sweater", 0);
-
+                    presenter.updateSweather(Integer.parseInt(mTemperature.getText().toString()));
                     displayToast("Sweater Weather Updated!").show();
                     Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -52,6 +57,11 @@ public class SettingsActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void displaySweather() {
+
     }
 
     private boolean isValidInput(String input) {
