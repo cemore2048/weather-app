@@ -1,7 +1,14 @@
 package net.rmoreno.weatherapp.presenters;
 
+import net.rmoreno.weatherapp.SettingsInteractor;
+
 public class SettingsPresenterImpl implements SettingsPresenter {
 
+    private SettingsInteractor interactor;
+
+    public SettingsPresenterImpl(SettingsInteractor interactor) {
+        this.interactor = interactor;
+    }
     @Override
     public void resume() {}
 
@@ -12,7 +19,7 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     public void pause() {}
 
     @Override
-    public void updateSweather() {
-        Weather
+    public void updateSweather(int temperature) {
+        interactor.updateSweather(temperature);
     }
 }

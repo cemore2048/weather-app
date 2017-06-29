@@ -44,4 +44,13 @@ public class WeatherRepository {
     public int getSweaterTemp() {
         return preferences.getInt("sweater", 0);
     }
+
+    public void updateSweather(int temperature) {
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.remove("sweater");
+        edit.putInt("sweater", temperature);
+        edit.commit();
+        preferences.getInt("sweater", 0);
+    }
 }
