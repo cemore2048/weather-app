@@ -14,7 +14,7 @@ import android.widget.Toast;
 import net.rmoreno.weatherapp.R;
 
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity implements  SettingsView{
 
     Button mDone;
     EditText mTemperature;
@@ -52,6 +52,11 @@ public class SettingsActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void displaySweather() {
+
     }
 
     private boolean isValidInput(String input) {
