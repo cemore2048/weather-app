@@ -61,7 +61,7 @@ public class SettingsActivity extends ActionBarActivity implements  SettingsView
 
     @Override
     public void displaySweather() {
-
+        //TODO show the sweater weather
     }
 
     private boolean isValidInput(String input) {
