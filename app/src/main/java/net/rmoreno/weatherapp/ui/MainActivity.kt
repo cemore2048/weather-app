@@ -50,7 +50,7 @@ class MainActivity : Activity(), WeatherView {
                 )
         )
 
-        if (weatherPresenter.isUsersFirstTime()) {
+        if (weatherPresenter.isUsersFirstTime) {
             val intent = Intent(this@MainActivity, IntroActivity::class.java)
             startActivity(intent)
             Toast.makeText(this@MainActivity, "sweater is 0", Toast.LENGTH_SHORT).show()
