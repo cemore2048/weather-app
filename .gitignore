@@ -1,6 +1,13 @@
-.gradle
-*.iml
+#build application files
+*.apk
+*.ap_
+
 /local.properties
-.idea/*
 .DS_Store
-/build
+
+# Android Studio
+*.iml
+.idea
+.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
