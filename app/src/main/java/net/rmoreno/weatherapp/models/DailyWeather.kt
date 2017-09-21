@@ -79,7 +79,7 @@ class DailyWeather {
     //        else if (mIcon.equals("partly-cloudy-night")) {
     //            iconId = R.drawable.cloudy_night;
     //        }
-    
+
     val iconId: Int
         get() {
             val iconId = R.drawable.clear_day

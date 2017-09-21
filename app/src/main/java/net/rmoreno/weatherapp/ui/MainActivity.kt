@@ -14,7 +14,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-
 import net.rmoreno.weatherapp.MyLocationListener
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.WeatherInteractor
@@ -24,8 +23,7 @@ import net.rmoreno.weatherapp.models.DailyWeather
 import net.rmoreno.weatherapp.presenters.WeatherPresenter
 import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl
 import net.rmoreno.weatherapp.repositories.WeatherRepository
-
-import java.util.ArrayList
+import java.util.*
 
 
 class MainActivity : Activity(), WeatherView {
