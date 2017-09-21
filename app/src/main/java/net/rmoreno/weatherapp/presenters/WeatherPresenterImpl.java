@@ -44,7 +44,7 @@ public class WeatherPresenterImpl implements WeatherPresenter {
     }
 
     @Override
-    public boolean firstTime() {
+    public boolean isUsersFirstTime() {
         return weatherInteractor.getSweaterWeather() == 0 ? true : false;
     }
     @Override
