@@ -13,9 +13,6 @@ import net.rmoreno.weatherapp.models.DailyWeather;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rafa on 12/12/15.
- */
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
