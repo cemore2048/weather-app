@@ -14,13 +14,12 @@ import io.reactivex.annotations.NonNull
 
 class WeatherNetwork {
 
-    fun getWeather(lat: Double, lng: Double, callback: Callback): Observable<Response> {
+    fun getWeather(lat: Double, lng: Double): Observable<Response> {
         val URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/$lat,$lng"
         val client = OkHttpClient()
         val request = Request.Builder()
                 .url(URL)
                 .build()
-
 
         return Observable.create { em ->
             try {

@@ -1,38 +1,22 @@
 package net.rmoreno.weatherapp.repositories
 
 import android.content.SharedPreferences
-import android.util.Log
-
-import com.squareup.okhttp.Callback
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
-
+import io.reactivex.schedulers.Schedulers
 import net.rmoreno.weatherapp.WeatherNetwork
-
-import java.io.IOException
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import net.rmoreno.weatherapp.presenters.Presenter
 
 class WeatherRepository(internal var preferences: SharedPreferences) {
 
     internal var network = WeatherNetwork()
 
-    fun getWeather(lat: Double, lng: Double, callback: Callback) {
-        network.getWeather(lat, lng, object : Callback {
-            override fun onFailure(request: Request, e: IOException) {
-                callback.onFailure(request, e)
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(response: Response) {
-                try {
-                    if (response.isSuccessful) {
-                        callback.onResponse(response)
-                    }
-                } catch (e: IOException) {
-                    Log.d("DWPresent" + " IOEXCEPTION", e.message)
+    fun getWeather(lat: Double, lng: Double, weatherCallback: Presenter.WeatherCallback) {
+        network.getWeather(lat, lng)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { response ->
+                    weatherCallback.onWeatherRetrieved(response)
                 }
-
-            }
-        })
     }
 
     val sweaterTemp: Int
@@ -43,7 +27,7 @@ class WeatherRepository(internal var preferences: SharedPreferences) {
 
         edit.remove("sweater")
         edit.putInt("sweater", temperature)
-        edit.commit()
+        edit.apply()
         preferences.getInt("sweater", 0)
     }
 }
