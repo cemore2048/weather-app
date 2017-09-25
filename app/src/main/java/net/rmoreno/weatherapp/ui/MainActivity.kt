@@ -41,7 +41,7 @@ class MainActivity : Activity(), WeatherView {
         //set sharedPreferences preferences to detect if user has a 'sweater weather'
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
-        val weatherPresenter = WeatherPresenterImpl(
+        weatherPresenter = WeatherPresenterImpl(
                 this,
                 WeatherInteractor(
                         WeatherRepository(sharedPreferences)
