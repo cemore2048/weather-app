@@ -96,7 +96,7 @@ class MainActivity : Activity(), WeatherView {
         } catch (ex: Exception) {
         }
 
-        return !gps_enabled && !network_enabled
+        return gps_enabled && network_enabled
     }
 
     override fun displayDailyWeather(dailyWeather: ArrayList<DailyWeather>, sweaterTemp: Int) {

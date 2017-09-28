@@ -1,16 +1,10 @@
 package net.rmoreno.weatherapp
 
-import com.squareup.okhttp.Callback
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
-
-import java.io.IOException
-
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.annotations.NonNull
+import java.io.IOException
 
 class WeatherNetwork {
 

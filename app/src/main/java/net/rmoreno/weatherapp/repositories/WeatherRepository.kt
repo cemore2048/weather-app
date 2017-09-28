@@ -1,22 +1,16 @@
 package net.rmoreno.weatherapp.repositories
 
 import android.content.SharedPreferences
-import io.reactivex.schedulers.Schedulers
+import com.squareup.okhttp.Response
+import io.reactivex.Observable
 import net.rmoreno.weatherapp.WeatherNetwork
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import net.rmoreno.weatherapp.presenters.Presenter
 
 class WeatherRepository(internal var preferences: SharedPreferences) {
 
     internal var network = WeatherNetwork()
 
-    fun getWeather(lat: Double, lng: Double, weatherCallback: Presenter.WeatherCallback) {
-        network.getWeather(lat, lng)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { response ->
-                    weatherCallback.onWeatherRetrieved(response)
-                }
+    fun getWeather(lat: Double, lng: Double): Observable<Response> {
+        return network.getWeather(lat, lng)
     }
 
     val sweaterTemp: Int

@@ -4,6 +4,9 @@ import android.util.Log
 
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.models.CurrentWeather
@@ -42,47 +45,50 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
         get() = if (weatherInteractor.sweaterWeather == 0) true else false
 
     override fun getCurrentWeather(lat: Double, lng: Double) {
-        weatherInteractor.getWeatherData(lat, lng, object : Presenter.WeatherCallback {
-            override fun onWeatherRetrieved(response: Response) {
-                try {
-                    val jsonData = response.body().string()
-
-                    val currentWeather = getCurrentWeatherData(jsonData)
-                    view!!.displayCurrentWeather(currentWeather)
-                } catch (e: JSONException) {
-                    Log.d("Present JSON Exception", e.message)
-                } catch (e: IOException) {
-                    Log.d("Present IO Exception", e.message)
-                }
-
-            }
-
-            override fun onFailure(request: Request, e: IOException) {
-
-            }
-        })
+        weatherInteractor.getWeatherData(lat, lng)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {response ->
+                            try {
+                                val jsonData = response.body().string()
+                                val currentWeather = getCurrentWeatherData(jsonData)
+                                view!!.displayCurrentWeather(currentWeather)
+                            } catch (e: JSONException) {
+                                Log.d("Present JSON Exception", e.message)
+                            } catch (e: IOException) {
+                                Log.d("Present IO Exception", e.message)
+                            }
+                        },
+                        {
+                            error ->
+                            error.printStackTrace()
+                        }
+                )
     }
 
     override fun getDailyWeather(lat: Double, lng: Double) {
-        weatherInteractor.getWeatherData(lat, lng, object : Presenter.WeatherCallback {
-            override fun onWeatherRetrieved(response: Response) {
-                try {
-                    val jsonData = response.body().string()
+        weatherInteractor.getWeatherData(lat, lng)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {response ->
+                            try {
+                                val jsonData = response.body().string()
 
-                    val dailyWeather = getDailyWeatherData(jsonData)
-                    val sweaterWeather = weatherInteractor.sweaterWeather
-                    view!!.displayDailyWeather(dailyWeather, sweaterWeather)
-                } catch (e: JSONException) {
-                    Log.d("Present JSON Exception", e.message)
-                } catch (e: IOException) {
-                    Log.d("Present IO Exception", e.message)
-                }
-            }
-
-            override fun onFailure(request: Request, e: IOException) {
-
-            }
-        })
+                                val dailyWeather = getDailyWeatherData(jsonData)
+                                val sweaterWeather = weatherInteractor.sweaterWeather
+                                view!!.displayDailyWeather(dailyWeather, sweaterWeather)
+                            } catch (e: JSONException) {
+                                Log.d("Present JSON Exception", e.message)
+                            } catch (e: IOException) {
+                                Log.d("Present IO Exception", e.message)
+                            }
+                        },
+                        {error ->
+                            error.printStackTrace()
+                        },
+                        {})
     }
 
     @Throws(JSONException::class)
