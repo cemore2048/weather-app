@@ -1,16 +1,8 @@
 package net.rmoreno.weatherapp
 
-
-import com.squareup.okhttp.Callback
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
 import io.reactivex.Observable
-
-import net.rmoreno.weatherapp.presenters.Presenter
 import net.rmoreno.weatherapp.repositories.WeatherRepository
-import org.json.JSONObject
-
-import java.io.IOException
+import okhttp3.Response
 
 class WeatherInteractor(var repo: WeatherRepository) {
 
@@ -20,6 +12,4 @@ class WeatherInteractor(var repo: WeatherRepository) {
 
     val sweaterWeather: Int
         get() = repo.sweaterTemp
-
-
 }

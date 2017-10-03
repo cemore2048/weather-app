@@ -1,9 +1,9 @@
 package net.rmoreno.weatherapp.repositories
 
 import android.content.SharedPreferences
-import com.squareup.okhttp.Response
 import io.reactivex.Observable
 import net.rmoreno.weatherapp.WeatherNetwork
+import okhttp3.Response
 
 class WeatherRepository(internal var preferences: SharedPreferences) {
 

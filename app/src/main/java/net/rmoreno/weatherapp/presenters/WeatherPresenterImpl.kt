@@ -1,25 +1,17 @@
 package net.rmoreno.weatherapp.presenters
 
 import android.util.Log
-
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-
 import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.models.CurrentWeather
 import net.rmoreno.weatherapp.models.DailyWeather
 import net.rmoreno.weatherapp.ui.MainActivity
 import net.rmoreno.weatherapp.ui.WeatherView
-
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInteractor) : WeatherPresenter {
 
@@ -46,8 +38,8 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
 
     override fun getCurrentWeather(lat: Double, lng: Double) {
         weatherInteractor.getWeatherData(lat, lng)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {response ->
                             try {
@@ -69,8 +61,8 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
 
     override fun getDailyWeather(lat: Double, lng: Double) {
         weatherInteractor.getWeatherData(lat, lng)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {response ->
                             try {
@@ -86,9 +78,8 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                             }
                         },
                         {error ->
-                            error.printStackTrace()
-                        },
-                        {})
+                           error.printStackTrace()
+                        })
     }
 
     @Throws(JSONException::class)

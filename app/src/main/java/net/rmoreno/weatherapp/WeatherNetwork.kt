@@ -1,9 +1,10 @@
 package net.rmoreno.weatherapp
 
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
+import android.util.Log
 import io.reactivex.Observable
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 
 class WeatherNetwork {
@@ -21,6 +22,7 @@ class WeatherNetwork {
                 em.onNext(response)
                 em.onComplete()
             } catch (err: IOException) {
+                Log.d("is breaking here?", "this breaks here")
                 err.printStackTrace()
                 em.onError(err)
             }
