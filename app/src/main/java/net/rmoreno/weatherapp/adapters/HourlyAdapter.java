@@ -68,7 +68,6 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         else if(position % 4 == 3){
             holder.mCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.red));
         }
-
     }
 
     @Override

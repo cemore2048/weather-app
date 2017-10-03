@@ -7,5 +7,4 @@ interface Presenter {
     fun pause()
 
     fun destroy()
-    
 }
