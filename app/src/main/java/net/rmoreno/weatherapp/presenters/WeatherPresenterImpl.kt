@@ -43,7 +43,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                 .subscribe(
                         {response ->
                             try {
-                                val jsonData = response.body().string()
+                                val jsonData = response.body()!!.string()
                                 val currentWeather = getCurrentWeatherData(jsonData)
                                 view!!.displayCurrentWeather(currentWeather)
                             } catch (e: JSONException) {
@@ -66,8 +66,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                 .subscribe(
                         {response ->
                             try {
-                                val jsonData = response.body().string()
-
+                                val jsonData = response.body()!!.string()
                                 val dailyWeather = getDailyWeatherData(jsonData)
                                 val sweaterWeather = weatherInteractor.sweaterWeather
                                 view!!.displayDailyWeather(dailyWeather, sweaterWeather)
