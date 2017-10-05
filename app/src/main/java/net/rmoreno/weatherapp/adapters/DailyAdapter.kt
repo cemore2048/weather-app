@@ -36,7 +36,6 @@ class DailyAdapter(internal var mContext: Context, internal var mDataset: ArrayL
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.daily_view, parent, false)
-
         val holder = ViewHolder(v)
 
         return holder

@@ -17,7 +17,7 @@ import net.rmoreno.weatherapp.repositories.WeatherRepository
 class SettingsActivity : AppCompatActivity(), SettingsView {
 
     internal var SHARED_PREFERENCES = "MyPrefs"
-    internal var presenter: SettingsPresenter? = null
+    internal lateinit var presenter: SettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class SettingsActivity : AppCompatActivity(), SettingsView {
 
         val preferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
-        SettingsPresenterImpl(
+        presenter = SettingsPresenterImpl(
                 SettingsInteractor(WeatherRepository(preferences))
         )
 

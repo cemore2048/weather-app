@@ -2,76 +2,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity"
-    >
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/currentData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="0dp"
         card_view:cardBackgroundColor="@color/blue"
-        card_view:cardMaxElevation="25dp" >
+        card_view:cardCornerRadius="0dp"
+        card_view:cardMaxElevation="25dp">
 
         <RelativeLayout
             android:id="@+id/cardviewLayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:padding="10dp" >
+            android:padding="10dp">
 
-            
-                <LinearLayout
-                    android:id="@+id/temperature_layout"
+
+            <LinearLayout
+                android:id="@+id/temperature_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    tools:text="this is the time" />
 
-                    <TextView
-                        android:id="@+id/time"
-                        tools:text="this is the time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="@color/white"
-                        />
-
-                    <TextView
-                        android:id="@+id/temperature"
-                        tools:text="50°"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="@color/white"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/feel_layout"
+                <TextView
+                    android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1">
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    tools:text="50°" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Feels Like"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/feels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="25sp" />
+            <LinearLayout
+                android:id="@+id/feel_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feels Like"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/feels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
 
             <!-- Layout Middle-->
 
@@ -79,9 +76,9 @@
                 android:id="@+id/forecast_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:padding="30dp">
 
                 <ImageView
@@ -93,63 +90,63 @@
                     android:id="@+id/summary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <!-- End Layout Middle -->
 
             <!-- Layout bottom -->
 
-                <LinearLayout
-                    android:id="@+id/precip_layout"
+            <LinearLayout
+                android:id="@+id/precip_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forecast_summary"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/forecast_summary"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
+                    android:text="Chance of Rain"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chance of Rain"
-                        android:textSize="10sp"
-                        android:textColor="@color/white"/>
-
-                    <TextView
-                        android:id="@+id/precipitation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="@color/white"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/wind_layout"
+                <TextView
+                    android:id="@+id/precipitation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_below="@+id/forecast_summary"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1">
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:text="Wind Speed"
-                        android:textColor="@color/white"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/wind"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/wind_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/forecast_summary"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wind Speed"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+            </LinearLayout>
 
             <!-- End layout bottom -->
 
@@ -162,7 +159,11 @@
         class="android.support.v7.widget.RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/currentData"/>
+        android:layout_below="@+id/currentData"
+        android:layout_centerInParent="true" />
 
+    <ProgressBar
+        android:id="@+id/weather_loading_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

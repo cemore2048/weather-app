@@ -3,6 +3,7 @@ package net.rmoreno.weatherapp.presenters
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.models.CurrentWeather
 import net.rmoreno.weatherapp.models.DailyWeather
@@ -36,12 +37,15 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
     override val isUsersFirstTime: Boolean
         get() = if (weatherInteractor.sweaterWeather == 0) true else false
 
+
     override fun getCurrentWeather(lat: Double, lng: Double) {
+        view!!.setLoading(true)
         weatherInteractor.getWeatherData(lat, lng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {response ->
+
                             try {
                                 val jsonData = response.body()!!.string()
                                 val currentWeather = getCurrentWeatherData(jsonData)
@@ -54,7 +58,11 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                         },
                         {
                             error ->
+                            view!!.setLoading(false)
                             error.printStackTrace()
+                        },
+                        {
+                            view!!.setLoading(false)
                         }
                 )
     }

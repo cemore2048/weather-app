@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import net.rmoreno.weatherapp.MyLocationListener
@@ -34,6 +35,7 @@ class MainActivity : Activity(), WeatherView {
     lateinit var weatherPresenter: WeatherPresenter
 
     internal var REQUEST_CODE = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -147,6 +149,10 @@ class MainActivity : Activity(), WeatherView {
         return true
     }
 
+    override fun setLoading(isLoading: Boolean) {
+        weather_loading_bar.setVisibility(if (isLoading) View.VISIBLE else  View.GONE);
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
@@ -155,6 +161,8 @@ class MainActivity : Activity(), WeatherView {
         } else if (id == R.id.set_sweather) {
             val intent = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(intent)
+        } else if (id == R.id.refresh) {
+            getLocation()
         }
 
         return super.onOptionsItemSelected(item)
