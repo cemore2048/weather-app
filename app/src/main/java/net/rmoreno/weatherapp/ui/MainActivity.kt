@@ -39,7 +39,6 @@ class MainActivity : Activity(), WeatherView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         //set sharedPreferences preferences to detect if user has a 'sweater weather'
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
@@ -57,6 +56,9 @@ class MainActivity : Activity(), WeatherView {
         }
 
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
+        weather_loading_bar.setVisibility(View.VISIBLE)
+        weather_loading_bar.bringToFront()
+
 
         if (isNetworkAvailible()) {
             getLocation()
@@ -124,7 +126,7 @@ class MainActivity : Activity(), WeatherView {
             startActivityForResult(myIntent, REQUEST_CODE)
         }
 
-        dialog.setNegativeButton(context.getString(R.string.Cancel)) { paramDialogInterface, paramInt -> }
+        dialog.setNegativeButton(context.getString(R.string.Cancel)) { _, _ -> }
         dialog.show()
     }
 
