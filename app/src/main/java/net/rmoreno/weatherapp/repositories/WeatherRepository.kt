@@ -7,10 +7,10 @@ import okhttp3.Response
 
 class WeatherRepository(internal var preferences: SharedPreferences) {
 
-    internal var network = WeatherNetwork()
+    internal var network = WeatherNetwork.Factory.create()
 
-    fun getWeather(lat: Double, lng: Double): Observable<Response> {
-        return network.getWeather(lat, lng)
+    fun getForecast(lat: Double, lng: Double): Observable<Response> {
+        return network.getForecast(lat, lng)
     }
 
     val sweaterTemp: Int

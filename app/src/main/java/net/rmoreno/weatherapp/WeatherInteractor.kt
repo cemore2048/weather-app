@@ -7,7 +7,7 @@ import okhttp3.Response
 class WeatherInteractor(var repo: WeatherRepository) {
 
     fun getWeatherData(lat: Double, lng: Double): Observable<Response> {
-        return repo.getWeather(lat, lng)
+        return repo.getForecast(lat, lng)
     }
 
     val sweaterWeather: Int

@@ -2,30 +2,72 @@ package net.rmoreno.weatherapp
 
 import android.util.Log
 import io.reactivex.Observable
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.IOException
 
-class WeatherNetwork {
+open interface WeatherNetwork {
 
-    fun getWeather(lat: Double, lng: Double): Observable<Response> {
-        val URL = "https://api.forecast.io/forecast/5530508d3568e57848d53bf10cfade1f/$lat,$lng"
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(URL)
-                .build()
+    @GET("forecast/")
+    fun getForecast(@Query("latitude") lat: Double,
+                   @Query("longitude") lng: Double) : Observable<Response>
 
-        return Observable.create { em ->
-            try {
-                val response = client.newCall(request).execute()
-                em.onNext(response)
-                em.onComplete()
-            } catch (err: IOException) {
-                Log.d("is breaking here?", "this breaks here")
-                err.printStackTrace()
-                em.onError(err)
-            }
+
+    companion object Factory {
+        val interceptor: Interceptor = Interceptor { chain ->
+            val request: Request = chain.request()
+            val url: HttpUrl = request.url()
+
+            val newUrl: HttpUrl = url.newBuilder()
+                    .addQueryParameter("key", "5530508d3568e57848d53bf10cfade1f")
+                    .build()
+
+            val newRequest = request.newBuilder()
+                    .url(newUrl)
+                    .build()
+
+            chain.proceed(newRequest)
+        }
+
+        fun create(): WeatherNetwork {
+            val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+            builder.interceptors().add(interceptor)
+
+            val client: OkHttpClient = builder
+                    .addNetworkInterceptor(LoggingInterceptor())
+                    .build()
+
+            val retrofit = Retrofit.Builder()
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl("https://api.darksky.net")
+                    .client(client)
+                    .build()
+
+            return retrofit.create<WeatherNetwork>(WeatherNetwork::class.java)
+        }
+    }
+
+     class LoggingInterceptor : Interceptor {
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request()
+
+            val t1 = System.nanoTime()
+            Log.d("Sent Request", String.format("Sending request %s on %s%n%s",
+                    request.url(), chain.connection(), request.headers()))
+
+            val response = chain.proceed(request)
+
+            val t2 = System.nanoTime()
+            Log.d("Received response", String.format("Received response for %s in %.1fms%n%s",
+                    response.request().url(), (t2 - t1) / 1e6, response.headers()))
+
+            return response
         }
     }
 }
