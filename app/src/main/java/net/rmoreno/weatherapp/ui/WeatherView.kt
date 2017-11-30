@@ -11,4 +11,6 @@ interface WeatherView {
 
     fun setLoading(isLoading: Boolean)
 
+    fun displayNetworkError()
+
 }
