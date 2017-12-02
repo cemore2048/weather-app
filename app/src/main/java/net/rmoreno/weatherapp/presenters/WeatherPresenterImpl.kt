@@ -13,7 +13,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
-class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInteractor) : WeatherPresenter {
+class WeatherPresenterImpl(view: MainActivity, private var weatherInteractor: WeatherInteractor) : WeatherPresenter {
 
     var view: WeatherView? = null
 
@@ -29,14 +29,19 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
         view = null
     }
 
-    override fun pause() {
-
+    override fun checkIfFirstTime() {
+        if (isUsersFirstTime) view!!.goToIntroActivity()
     }
 
-    override val isUsersFirstTime: Boolean
-        get() = if (weatherInteractor.sweaterWeather == 0) true else false
+    private val isUsersFirstTime: Boolean
+        get() = weatherInteractor.sweaterWeather == 0
 
-    override fun getCurrentWeather(lat: Double, lng: Double) {
+    override fun getCurrentWeather() {
+        val location = getCurrentLocation()!!
+        getCurrentWeather(location.first, location.second)
+    }
+
+    private fun getCurrentWeather(lat: Double, lng: Double) {
         weatherInteractor.getWeatherData(lat, lng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +50,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
 
                             try {
                                 val jsonData = response.body()!!.string()
-                                val currentWeather = getCurrentWeatherData(jsonData)
+                                val currentWeather = parseCurrentWeather(jsonData)
 
                                 view!!.displayCurrentWeather(currentWeather)
                             } catch (e: JSONException) {
@@ -61,7 +66,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                 )
     }
 
-    override fun getDailyWeather(lat: Double, lng: Double) {
+    private fun getDailyWeather(lat: Double, lng: Double) {
         view!!.setLoading(true)
         weatherInteractor.getWeatherData(lat, lng)
                 .subscribeOn(Schedulers.io())
@@ -70,7 +75,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                         {response ->
                             try {
                                 val jsonData = response.body()!!.string()
-                                val dailyWeather = getDailyWeatherData(jsonData)
+                                val dailyWeather = parseDailyWeather(jsonData)
                                 val sweaterWeather = weatherInteractor.sweaterWeather
                                 view!!.displayDailyWeather(dailyWeather, sweaterWeather)
                             } catch (e: JSONException) {
@@ -88,8 +93,13 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
                         })
     }
 
+    override fun getDailyWeather() {
+        val location = getCurrentLocation()!!
+        getDailyWeather(location.first, location.second)
+    }
+
     @Throws(JSONException::class)
-    fun getDailyWeatherData(jsonData: String): ArrayList<DailyWeather> {
+    private fun parseDailyWeather(jsonData: String): ArrayList<DailyWeather> {
         val dailyWeatherList = ArrayList<DailyWeather>()
 
         val jsonObject = JSONObject(jsonData)
@@ -97,7 +107,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
         val data = hourly.getJSONArray("data")
 
         Log.d("DWPresent", data.getJSONObject(1).getDouble("precipProbability").toString())
-        for (i in 0..data.length() - 1) {
+        for (i in 0 until data.length()) {
             val dailyWeather = DailyWeather()
 
             dailyWeather.time = data.getJSONObject(i).getLong("time")
@@ -112,7 +122,7 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
     }
 
     @Throws(JSONException::class)
-    private fun getCurrentWeatherData(jsonData: String): CurrentWeather {
+    private fun parseCurrentWeather(jsonData: String): CurrentWeather {
 
         val currentWeather = CurrentWeather()
         val jsonObject = JSONObject(jsonData)
@@ -130,5 +140,30 @@ class WeatherPresenterImpl(view: MainActivity, var weatherInteractor: WeatherInt
 
         return currentWeather
     }
+
+    private fun getCurrentLocation(): Pair<Double, Double>? {
+        val location = weatherInteractor.getCurrentLocation()
+
+        return if (location == null) {
+            view!!.displayNetworkError()
+            null
+        } else {
+            location
+        }
+    }
+
+//    fun checkLocationEnabled(locationEnabled: Boolean) {
+//        if (locationEnabled) {
+//            view
+//        }
+//    }
+
+//    private fun isNetworkAvailable(): Boolean {
+//        var isAvailable = false
+//        if (networkInfo != null && networkInfo.isConnected) {
+//            isAvailable = true
+//        }
+//        return isAvailable
+//    }
 
 }

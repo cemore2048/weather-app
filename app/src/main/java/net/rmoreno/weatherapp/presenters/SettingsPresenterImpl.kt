@@ -7,8 +7,6 @@ class SettingsPresenterImpl(private val interactor: SettingsInteractor) : Settin
 
     override fun destroy() {}
 
-    override fun pause() {}
-
     override fun updateSweather(temperature: Int) {
         interactor.updateSweather(temperature)
     }

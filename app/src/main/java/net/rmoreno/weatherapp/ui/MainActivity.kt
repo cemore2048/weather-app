@@ -34,9 +34,6 @@ class MainActivity : Activity(), WeatherView {
 
     private var REQUEST_CODE = 100
 
-    lateinit var connectivityManager: ConnectivityManager
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

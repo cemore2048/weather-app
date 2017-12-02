@@ -2,9 +2,10 @@ package net.rmoreno.weatherapp.presenters
 
 interface WeatherPresenter : Presenter {
 
-    fun getDailyWeather(lat: Double, lng: Double)
+    fun getDailyWeather()
 
-    fun getCurrentWeather(lat: Double, lng: Double)
+    fun getCurrentWeather()
 
-    val isUsersFirstTime: Boolean
+    fun checkIfFirstTime()
+//    fun checkLocationEnabled(locationEnabled: Boolean)
 }
