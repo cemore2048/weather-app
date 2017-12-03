@@ -1,17 +1,10 @@
 package net.rmoreno.weatherapp.presenters
 
-import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import net.rmoreno.weatherapp.WeatherInteractor
-import net.rmoreno.weatherapp.models.CurrentWeather
-import net.rmoreno.weatherapp.models.DailyWeather
 import net.rmoreno.weatherapp.ui.MainActivity
 import net.rmoreno.weatherapp.ui.WeatherView
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.util.*
 
 class WeatherPresenterImpl(view: MainActivity, private var weatherInteractor: WeatherInteractor) : WeatherPresenter {
 
@@ -38,18 +31,17 @@ class WeatherPresenterImpl(view: MainActivity, private var weatherInteractor: We
 
     override fun getWeather() {
         val location = getCurrentLocation()!!
-
+        weatherInteractor.startLocationService()
         weatherInteractor.getWeatherData(location.first, location.second)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {
-                            response ->
-                                val currentWeather = response.currently
-                                val dailyWeather = response.daily
-                                val sweather = weatherInteractor.sweaterWeather
-                                view!!.displayCurrentWeather(currentWeather)
-                                view!!.displayDailyWeather(dailyWeather.data, sweather, response.timezone)
+                        { response ->
+                            val currentWeather = response.currently
+                            val dailyWeather = response.daily
+                            val sweather = weatherInteractor.sweaterWeather
+                            view!!.displayCurrentWeather(currentWeather)
+                            view!!.displayDailyWeather(dailyWeather.data, sweather, response.timezone)
                         }
                 )
     }

@@ -7,7 +7,6 @@ import android.net.NetworkInfo
 import android.util.Log
 
 class LocationSensor(val context: Context) {
-
     private var connectivityManager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private var networkInfo: NetworkInfo
     private var lm: LocationManager

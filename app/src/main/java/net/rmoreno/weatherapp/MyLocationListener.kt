@@ -7,7 +7,6 @@ import android.util.Log
 
 
 class MyLocationListener : LocationListener {
-
     override fun onLocationChanged(location: Location) {
         val latitude = location.latitude
         val longitude = location.longitude

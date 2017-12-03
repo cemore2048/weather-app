@@ -3,7 +3,7 @@ package net.rmoreno.weatherapp.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ForecastResponse (
+data class ForecastResponse(
 
         @SerializedName("latitude")
         @Expose

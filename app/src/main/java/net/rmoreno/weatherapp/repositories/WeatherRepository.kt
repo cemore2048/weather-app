@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import io.reactivex.Observable
 import net.rmoreno.weatherapp.WeatherNetwork
 import net.rmoreno.weatherapp.models.ForecastResponse
-import okhttp3.Response
 
 class WeatherRepository(internal var preferences: SharedPreferences) {
 

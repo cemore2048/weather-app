@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import net.rmoreno.weatherapp.LocationSensor
 import net.rmoreno.weatherapp.R
@@ -21,7 +20,6 @@ import net.rmoreno.weatherapp.models.DailyDetail
 import net.rmoreno.weatherapp.presenters.WeatherPresenter
 import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl
 import net.rmoreno.weatherapp.repositories.WeatherRepository
-
 
 class MainActivity : Activity(), WeatherView {
 
@@ -48,6 +46,7 @@ class MainActivity : Activity(), WeatherView {
         //TODO unbind presenter and connectivity manager
     }
 
+    //the way I'm setting this up doesn't make sense right now
     private fun setup() {
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val locationSensor = LocationSensor(this@MainActivity)
@@ -66,7 +65,6 @@ class MainActivity : Activity(), WeatherView {
     override fun goToIntroActivity() {
         val intent = Intent(this@MainActivity, IntroActivity::class.java)
         startActivity(intent)
-        Toast.makeText(this@MainActivity, "sweater is 0", Toast.LENGTH_SHORT).show()
     }
 
     override fun displayDailyWeather(dailyDetail: List<DailyDetail>, sweaterTemp: Int, timezone: String) {

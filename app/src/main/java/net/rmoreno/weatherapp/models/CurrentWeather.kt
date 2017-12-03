@@ -1,10 +1,8 @@
 package net.rmoreno.weatherapp.models
 
 import net.rmoreno.weatherapp.R
-
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
+import java.util.*
 
 class CurrentWeather {
     private var mTemp: Double = 0.toDouble()

@@ -15,11 +15,11 @@ open interface WeatherNetwork {
 
     @GET("forecast/")
     fun getForecast(@Query("latitude") lat: Double,
-                   @Query("longitude") lng: Double) : Observable<ForecastResponse>
+                    @Query("longitude") lng: Double): Observable<ForecastResponse>
 
 
     companion object Factory {
-        val interceptor: Interceptor = Interceptor { chain ->
+        private val interceptor: Interceptor = Interceptor { chain ->
             val request: Request = chain.request()
             val url: HttpUrl = request.url()
 
@@ -53,7 +53,7 @@ open interface WeatherNetwork {
         }
     }
 
-     class LoggingInterceptor : Interceptor {
+    class LoggingInterceptor : Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
