@@ -8,15 +8,14 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.IOException
 
-open interface WeatherNetwork {
+interface WeatherNetwork {
 
-    @GET("forecast/")
-    fun getForecast(@Query("latitude") lat: Double,
-                    @Query("longitude") lng: Double): Observable<ForecastResponse>
-
+    @GET("forecast/key/{coordinates}")
+    fun getForecast(@Path("coordinates") coordinates: String): Observable<ForecastResponse>
 
     companion object Factory {
         private val interceptor: Interceptor = Interceptor { chain ->
@@ -24,7 +23,7 @@ open interface WeatherNetwork {
             val url: HttpUrl = request.url()
 
             val newUrl: HttpUrl = url.newBuilder()
-                    .addQueryParameter("key", "5530508d3568e57848d53bf10cfade1f")
+                    .setPathSegment(1, "5530508d3568e57848d53bf10cfade1f")
                     .build()
 
             val newRequest = request.newBuilder()

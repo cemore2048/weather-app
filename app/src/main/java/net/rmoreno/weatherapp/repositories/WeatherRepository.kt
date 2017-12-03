@@ -10,7 +10,7 @@ class WeatherRepository(internal var preferences: SharedPreferences) {
     internal var network = WeatherNetwork.Factory.create()
 
     fun getForecast(lat: Double, lng: Double): Observable<ForecastResponse> {
-        return network.getForecast(lat, lng)
+        return network.getForecast("$lat,$lng")
     }
 
     val sweaterTemp: Int
