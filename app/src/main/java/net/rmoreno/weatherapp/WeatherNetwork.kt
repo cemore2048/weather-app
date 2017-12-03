@@ -2,6 +2,7 @@ package net.rmoreno.weatherapp
 
 import android.util.Log
 import io.reactivex.Observable
+import net.rmoreno.weatherapp.models.ForecastResponse
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -14,7 +15,7 @@ open interface WeatherNetwork {
 
     @GET("forecast/")
     fun getForecast(@Query("latitude") lat: Double,
-                   @Query("longitude") lng: Double) : Observable<Response>
+                   @Query("longitude") lng: Double) : Observable<ForecastResponse>
 
 
     companion object Factory {

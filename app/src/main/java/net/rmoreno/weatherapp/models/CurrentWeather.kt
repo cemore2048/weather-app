@@ -7,7 +7,7 @@ import java.util.Date
 import java.util.TimeZone
 
 class CurrentWeather {
-    internal var mTemp: Double = 0.toDouble()
+    private var mTemp: Double = 0.toDouble()
     var time: Long = 0
     var icon: String?= null
     var summary: String? = null
@@ -61,22 +61,18 @@ class CurrentWeather {
     //        else if (mIcon.equals("fog")) {
     //            iconId = R.drawable.fog;
     //        }
+
     val iconId: Int
         get() {
             var iconId = R.drawable.clear_day
 
-            if (icon == "clear-day") {
-                iconId = R.drawable.clear_day
-            } else if (icon == "rain") {
-                iconId = R.drawable.rain
-            } else if (icon == "wind") {
-                iconId = R.drawable.windy
-            } else if (icon == "cloudy") {
-                iconId = R.drawable.cloudy
-            } else if (icon == "partly-cloudy-day") {
-                iconId = R.drawable.partly_cloudy_day
-            } else if (icon == "partly-cloudy-night") {
-                iconId = R.drawable.cloudy_night
+            when (icon) {
+                "clear-day" -> iconId = R.drawable.clear_day
+                "rain" -> iconId = R.drawable.rain
+                "wind" -> iconId = R.drawable.windy
+                "cloudy" -> iconId = R.drawable.cloudy
+                "partly-cloudy-day" -> iconId = R.drawable.partly_cloudy_day
+                "partly-cloudy-night" -> iconId = R.drawable.cloudy_night
             }
             return iconId
         }

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.widget.LinearLayoutManager
@@ -17,12 +16,11 @@ import net.rmoreno.weatherapp.LocationSensor
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.adapters.DailyAdapter
-import net.rmoreno.weatherapp.models.CurrentWeather
-import net.rmoreno.weatherapp.models.DailyWeather
+import net.rmoreno.weatherapp.models.Currently
+import net.rmoreno.weatherapp.models.DailyDetail
 import net.rmoreno.weatherapp.presenters.WeatherPresenter
 import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl
 import net.rmoreno.weatherapp.repositories.WeatherRepository
-import java.util.*
 
 
 class MainActivity : Activity(), WeatherView {
@@ -30,20 +28,17 @@ class MainActivity : Activity(), WeatherView {
     //internal var ACTIVITY = "MAIN ACTIVITY"
     private var SHARED_PREFERENCES = "MyPrefs"
 
-    lateinit var weatherPresenter: WeatherPresenter
+    private lateinit var weatherPresenter: WeatherPresenter
 
     private var REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //set sharedPreferences preferences to detect if user has a 'sweater weather'
 
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
-        weather_loading_bar.setVisibility(View.VISIBLE)
+        weather_loading_bar.visibility = View.VISIBLE
         weather_loading_bar.bringToFront()
-
-        weatherPresenter.checkIfFirstTime()
 
         setup()
     }
@@ -51,12 +46,6 @@ class MainActivity : Activity(), WeatherView {
     public override fun onResume() {
         super.onResume()
         //TODO unbind presenter and connectivity manager
-        setup()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-
     }
 
     private fun setup() {
@@ -67,9 +56,11 @@ class MainActivity : Activity(), WeatherView {
 
         weatherPresenter = WeatherPresenterImpl(
                 this,
-                    weatherInteractor
+                weatherInteractor
         )
 
+        weatherPresenter.checkIfFirstTime()
+        weatherPresenter.getWeather()
     }
 
     override fun goToIntroActivity() {
@@ -78,19 +69,21 @@ class MainActivity : Activity(), WeatherView {
         Toast.makeText(this@MainActivity, "sweater is 0", Toast.LENGTH_SHORT).show()
     }
 
-    override fun displayDailyWeather(dailyWeather: ArrayList<DailyWeather>, sweaterTemp: Int) {
-        val adapter = DailyAdapter(this@MainActivity, dailyWeather, sweaterTemp)
+    override fun displayDailyWeather(dailyDetail: List<DailyDetail>, sweaterTemp: Int, timezone: String) {
+        val adapter = DailyAdapter(this@MainActivity, dailyDetail, sweaterTemp, timezone)
         recycler_view.adapter = adapter
     }
 
-    override fun displayCurrentWeather(currentWeather: CurrentWeather) {
-        temperature.text = currentWeather.temp.toString() + "°"
-        time.text = "At " + currentWeather.formatedTime
-        current_icon.setImageResource(currentWeather.iconId)
+    override fun displayCurrentWeather(currentWeather: Currently) {
+        temperature.text = currentWeather.temperature.toString() + "°"
+        time.text = "At " + currentWeather.time
+
+        //TODO: get icon
+        //current_icon.setImageResource(currentWeather.icon)
         summary_text.text = currentWeather.summary
-        precipitation.text = currentWeather.precip.toString() + "%"
-        feels.text = currentWeather.feels.toString() + "°"
-        wind.text = currentWeather.wind.toString() + "mph"
+        precipitation.text = currentWeather.precipProbability.toString() + "%"
+        feels.text = currentWeather.apparentTemperature.toString() + "°"
+        wind.text = currentWeather.windSpeed.toString() + "mph"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -99,7 +92,7 @@ class MainActivity : Activity(), WeatherView {
     }
 
     override fun setLoading(isLoading: Boolean) {
-        weather_loading_bar.setVisibility(if (isLoading) View.VISIBLE else View.GONE);
+        weather_loading_bar.visibility = if (isLoading) View.VISIBLE else View.GONE;
     }
 
     override fun displayNetworkError() {

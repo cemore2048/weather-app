@@ -1,4 +1,4 @@
-#build application files
+# build application files
 *.apk
 *.ap_
 
@@ -7,5 +7,6 @@
 
 # Android Studio
 *.idea
+*.iml
 .gradle
 build/

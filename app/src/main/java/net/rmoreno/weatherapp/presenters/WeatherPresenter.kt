@@ -2,9 +2,7 @@ package net.rmoreno.weatherapp.presenters
 
 interface WeatherPresenter : Presenter {
 
-    fun getDailyWeather()
-
-    fun getCurrentWeather()
+    fun getWeather()
 
     fun checkIfFirstTime()
 //    fun checkLocationEnabled(locationEnabled: Boolean)
