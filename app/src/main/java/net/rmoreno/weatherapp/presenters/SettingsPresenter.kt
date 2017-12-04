@@ -1,5 +1,10 @@
 package net.rmoreno.weatherapp.presenters
 
-interface SettingsPresenter : Presenter {
-    fun updateSweather(temperature: Int)
+import net.rmoreno.weatherapp.SettingsInteractor
+
+class SettingsPresenter(private val interactor: SettingsInteractor) {
+
+    fun updateSweather(temperature: Int) {
+        interactor.updateSweather(temperature)
+    }
 }

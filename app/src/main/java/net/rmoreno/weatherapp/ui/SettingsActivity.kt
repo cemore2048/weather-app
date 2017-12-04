@@ -10,14 +10,12 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.SettingsInteractor
 import net.rmoreno.weatherapp.presenters.SettingsPresenter
-import net.rmoreno.weatherapp.presenters.SettingsPresenterImpl
 import net.rmoreno.weatherapp.repositories.WeatherRepository
 
 
 class SettingsActivity : AppCompatActivity(), SettingsView {
-
-    internal var SHARED_PREFERENCES = "MyPrefs"
-    internal lateinit var presenter: SettingsPresenter
+    private var SHARED_PREFERENCES = "MyPrefs"
+    private lateinit var presenter: SettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +23,13 @@ class SettingsActivity : AppCompatActivity(), SettingsView {
 
         val preferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
-        presenter = SettingsPresenterImpl(
+        presenter = SettingsPresenter(
                 SettingsInteractor(WeatherRepository(preferences))
         )
 
         done.setOnClickListener {
             if (isValidInput(temperature.text.toString())) {
-                presenter!!.updateSweather(Integer.parseInt(temperature.text.toString()))
+                presenter.updateSweather(Integer.parseInt(temperature.text.toString()))
                 displayToast("Sweater Weather Updated!")
                 val intent = Intent(this@SettingsActivity, MainActivity::class.java)
                 startActivity(intent)

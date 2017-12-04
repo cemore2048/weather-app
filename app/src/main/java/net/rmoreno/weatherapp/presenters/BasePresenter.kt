@@ -2,12 +2,11 @@ package net.rmoreno.weatherapp.presenters
 
 import java.lang.ref.WeakReference
 
-abstract class Presenter<M, V> {
-
-    private var model: M? = null
+open abstract class BasePresenter<M, V> {
+    var model: M? = null
     private var view: WeakReference<V>? = null
 
-    fun setModel(model: M) {
+    fun setM(model: M?) {
         this.model = model
 
         if (setupDone()) {
@@ -15,8 +14,12 @@ abstract class Presenter<M, V> {
         }
     }
 
-    fun bindView(view: V) {
+    open fun bindView(view: V) {
         this.view = WeakReference(view)
+    }
+
+    open fun unbindView() {
+        this.view = null
     }
 
     abstract fun updateView()
@@ -25,11 +28,8 @@ abstract class Presenter<M, V> {
         return if (view == null) null else view?.get()
     }
 
-    private fun setupDone(): Boolean {
-        return this.view != null && this.model != null
-    }
-
-    open fun unbindView() {
-        this.view = null
+    open fun setupDone(): Boolean {
+        return view() != null && model != null
     }
 }
+

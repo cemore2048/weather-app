@@ -5,9 +5,9 @@ import io.reactivex.Observable
 import net.rmoreno.weatherapp.WeatherNetwork
 import net.rmoreno.weatherapp.models.ForecastResponse
 
-class WeatherRepository(internal var preferences: SharedPreferences) {
+class WeatherRepository(private var preferences: SharedPreferences) {
 
-    internal var network = WeatherNetwork.Factory.create()
+    private var network = WeatherNetwork.Factory.create()
 
     fun getForecast(lat: Double, lng: Double): Observable<ForecastResponse> {
         return network.getForecast("$lat,$lng")

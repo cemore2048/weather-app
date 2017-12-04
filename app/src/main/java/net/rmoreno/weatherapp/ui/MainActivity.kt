@@ -18,7 +18,6 @@ import net.rmoreno.weatherapp.adapters.DailyAdapter
 import net.rmoreno.weatherapp.models.Currently
 import net.rmoreno.weatherapp.models.DailyDetail
 import net.rmoreno.weatherapp.presenters.WeatherPresenter
-import net.rmoreno.weatherapp.presenters.WeatherPresenterImpl
 import net.rmoreno.weatherapp.repositories.WeatherRepository
 
 class MainActivity : Activity(), WeatherView {
@@ -43,7 +42,13 @@ class MainActivity : Activity(), WeatherView {
 
     public override fun onResume() {
         super.onResume()
+        weatherPresenter.bindView(this@MainActivity)
         //TODO unbind presenter and connectivity manager
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        weatherPresenter.unbindView()
     }
 
     //the way I'm setting this up doesn't make sense right now
@@ -53,13 +58,8 @@ class MainActivity : Activity(), WeatherView {
         val weatherRepository = WeatherRepository(sharedPreferences)
         val weatherInteractor = WeatherInteractor(weatherRepository, locationSensor)
 
-        weatherPresenter = WeatherPresenterImpl(
-                this,
-                weatherInteractor
-        )
-
+        weatherPresenter = WeatherPresenter(weatherInteractor)
         weatherPresenter.checkIfFirstTime()
-        weatherPresenter.getWeather()
     }
 
     override fun goToIntroActivity() {
@@ -67,8 +67,8 @@ class MainActivity : Activity(), WeatherView {
         startActivity(intent)
     }
 
-    override fun displayDailyWeather(dailyDetail: List<DailyDetail>, sweaterTemp: Int, timezone: String) {
-        val adapter = DailyAdapter(this@MainActivity, dailyDetail, sweaterTemp, timezone)
+    override fun displayDailyWeather(dailyWeather: List<DailyDetail>, sweaterTemp: Int, timezone: String) {
+        val adapter = DailyAdapter(this@MainActivity, dailyWeather, sweaterTemp, timezone)
         recycler_view.adapter = adapter
     }
 
