@@ -13,7 +13,7 @@ data class ForecastResponse(
         @Expose
         val longitude: Double,
 
-        @SerializedName("timzone")
+        @SerializedName("timezone")
         @Expose
         val timezone: String,
 
