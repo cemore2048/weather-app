@@ -73,15 +73,15 @@ class MainActivity : Activity(), WeatherView {
     }
 
     override fun displayCurrentWeather(currentWeather: Currently) {
-        temperature.text = currentWeather.temperature.toString() + "°"
+        temperature.text = Math.round(currentWeather.temperature).toString() + "°"
         time.text = "At " + currentWeather.time
 
         //TODO: get icon
         //current_icon.setImageResource(currentWeather.icon)
         summary_text.text = currentWeather.summary
         precipitation.text = currentWeather.precipProbability.toString() + "%"
-        feels.text = currentWeather.apparentTemperature.toString() + "°"
-        wind.text = currentWeather.windSpeed.toString() + "mph"
+        feels.text = Math.round(currentWeather.apparentTemperature).toString() + "°"
+        wind.text = Math.round(currentWeather.windSpeed).toString() + "mph"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

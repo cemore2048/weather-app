@@ -2,7 +2,7 @@ package net.rmoreno.weatherapp.presenters
 
 import java.lang.ref.WeakReference
 
-open abstract class BasePresenter<M, V> {
+abstract class BasePresenter<M, V> {
     var model: M? = null
     private var view: WeakReference<V>? = null
 
