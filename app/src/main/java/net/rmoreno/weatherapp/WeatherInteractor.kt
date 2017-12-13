@@ -1,5 +1,7 @@
 package net.rmoreno.weatherapp
 
+import android.location.Location
+import com.google.android.gms.tasks.Task
 import io.reactivex.Observable
 import net.rmoreno.weatherapp.models.ForecastResponse
 import net.rmoreno.weatherapp.repositories.WeatherRepository
@@ -9,12 +11,8 @@ class WeatherInteractor(var repo: WeatherRepository, var locationSensor: Locatio
         return repo.getForecast(lat, lng)
     }
 
-    fun getCurrentLocation(): Pair<Double, Double>? {
-        return locationSensor.getLocation()
-    }
-
-    fun startLocationService() {
-        locationSensor.requestLocationUpates()
+    fun getCurrentLocation(): Task<Location> {
+        return locationSensor.getLastLocation()
     }
 
     val sweaterWeather: Int

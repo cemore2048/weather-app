@@ -24,17 +24,21 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
         get() = weatherInteractor.sweaterWeather == 0
 
     fun getWeather() {
-        weatherInteractor.startLocationService()
-        val location = getCurrentLocation()!!
-
-        weatherInteractor.getWeatherData(location.first, location.second)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { response ->
-                            setM(response)
-                        }
-                )
+        weatherInteractor.getCurrentLocation().addOnSuccessListener {
+            location ->
+            if (location != null) {
+                weatherInteractor.getWeatherData(location.latitude, location.longitude)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { response ->
+                                    setM(response)
+                                }
+                        )
+            } else {
+                view()!!.displayNetworkError()
+            }
+        }
     }
 
     override fun bindView(view: WeatherView) {
@@ -43,17 +47,6 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
             view()!!.goToIntroActivity()
         } else if (model == null){
             getWeather()
-        }
-    }
-
-    private fun getCurrentLocation(): Pair<Double, Double>? {
-        val location = weatherInteractor.getCurrentLocation()
-
-        return if (location == null) {
-            view()!!.displayNetworkError()
-            null
-        } else {
-            location
         }
     }
 
