@@ -37,12 +37,18 @@ class MainActivity : Activity(), WeatherView {
         weather_loading_bar.visibility = View.VISIBLE
         weather_loading_bar.bringToFront()
 
-        setup()
+        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val locationSensor = LocationSensor(this@MainActivity)
+        val weatherRepository = WeatherRepository(sharedPreferences)
+        val weatherInteractor = WeatherInteractor(weatherRepository, locationSensor)
+        weatherPresenter = WeatherPresenter(weatherInteractor)
+
     }
 
     public override fun onResume() {
         super.onResume()
         weatherPresenter.bindView(this@MainActivity)
+        weatherPresenter.checkIfFirstTime()
         //TODO unbind presenter and connectivity manager
     }
 
@@ -53,13 +59,7 @@ class MainActivity : Activity(), WeatherView {
 
     //the way I'm setting this up doesn't make sense right now
     private fun setup() {
-        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        val locationSensor = LocationSensor(this@MainActivity)
-        val weatherRepository = WeatherRepository(sharedPreferences)
-        val weatherInteractor = WeatherInteractor(weatherRepository, locationSensor)
 
-        weatherPresenter = WeatherPresenter(weatherInteractor)
-        weatherPresenter.checkIfFirstTime()
     }
 
     override fun goToIntroActivity() {

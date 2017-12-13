@@ -24,8 +24,9 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
         get() = weatherInteractor.sweaterWeather == 0
 
     fun getWeather() {
-        val location = getCurrentLocation()!!
         weatherInteractor.startLocationService()
+        val location = getCurrentLocation()!!
+
         weatherInteractor.getWeatherData(location.first, location.second)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -38,8 +39,9 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
 
     override fun bindView(view: WeatherView) {
         super.bindView(view)
-
-        if (model == null) {
+        if (isUsersFirstTime) {
+            view()!!.goToIntroActivity()
+        } else if (model == null){
             getWeather()
         }
     }
