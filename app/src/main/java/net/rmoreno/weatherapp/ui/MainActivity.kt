@@ -48,18 +48,12 @@ class MainActivity : Activity(), WeatherView {
     public override fun onResume() {
         super.onResume()
         weatherPresenter.bindView(this@MainActivity)
-        weatherPresenter.checkIfFirstTime()
         //TODO unbind presenter and connectivity manager
     }
 
     public override fun onPause() {
         super.onPause()
         weatherPresenter.unbindView()
-    }
-
-    //the way I'm setting this up doesn't make sense right now
-    private fun setup() {
-
     }
 
     override fun goToIntroActivity() {
@@ -121,7 +115,7 @@ class MainActivity : Activity(), WeatherView {
             }
 
             R.id.refresh -> {
-                setup()
+                //TODO implement refresh action
             }
         }
         return super.onOptionsItemSelected(item)
