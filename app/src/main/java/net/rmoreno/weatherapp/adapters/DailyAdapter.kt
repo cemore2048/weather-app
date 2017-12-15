@@ -44,8 +44,8 @@ class DailyAdapter(private var context: Context, private var dailyList: List<Dai
         } else {
             holder.day.text = TimeUtil.formatTime(dailyList[position].time, timezone)
         }
-        holder.minTemperature.text = dailyList[position].tempLow.toString() + "° - "
-        holder.maxTemperature.text = dailyList[position].tempHigh.toString() + "°"
+        holder.minTemperature.text = Math.round(dailyList[position].tempLow).toString() + "° - "
+        holder.maxTemperature.text = Math.round(dailyList[position].tempHigh).toString() + "°"
 
         holder.precipitation.text = Math.round(dailyList[position].precipProbability).toInt().toString() + "%"
 
