@@ -68,10 +68,10 @@ class MainActivity : Activity(), WeatherView {
         recycler_view.adapter = adapter
     }
 
-    override fun displayCurrentWeather(currentWeather: Currently) {
+    override fun displayCurrentWeather(currentWeather: Currently, timezone: String) {
         temperature.text = Math.round(currentWeather.temperature).toString() + "°"
         //TODO: make this shake when we can't update the weather due to network errors or lack of location
-        time.text = "At " + TimeUtil.formatTime(currentWeather.time, timeZone)
+        time.text = "At " + TimeUtil.formatTime(currentWeather.time, timezone)
 
         //TODO: get icon
         //current_icon.setImageResource(currentWeather.icon)
