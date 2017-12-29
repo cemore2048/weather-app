@@ -42,7 +42,7 @@ class DailyAdapter(private var context: Context, private var dailyList: List<Dai
         if (position == 0) {
             holder.day.text = "Today"
         } else {
-            holder.day.text = TimeUtil.formatTime(dailyList[position].time, timezone)
+            holder.day.text = TimeUtil.formatDay(dailyList[position].time, timezone)
         }
         holder.minTemperature.text = Math.round(dailyList[position].tempLow).toString() + "° - "
         holder.maxTemperature.text = Math.round(dailyList[position].tempHigh).toString() + "°"
