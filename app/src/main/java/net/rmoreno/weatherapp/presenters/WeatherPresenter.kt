@@ -11,7 +11,7 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
     override fun updateView() {
         val sweather = weatherInteractor.sweaterWeather
         if (model != null) {
-            view()!!.displayCurrentWeather(model!!.currently)
+            view()!!.displayCurrentWeather(model!!.currently, model!!.timezone)
             view()!!.displayDailyWeather(model!!.daily.data, sweather, model!!.timezone)
         }
     }

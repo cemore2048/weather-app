@@ -10,9 +10,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import net.rmoreno.weatherapp.LocationSensor
 import net.rmoreno.weatherapp.R
+import net.rmoreno.weatherapp.TimeUtil
 import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.adapters.DailyAdapter
 import net.rmoreno.weatherapp.models.Currently
@@ -68,7 +70,8 @@ class MainActivity : Activity(), WeatherView {
 
     override fun displayCurrentWeather(currentWeather: Currently) {
         temperature.text = Math.round(currentWeather.temperature).toString() + "°"
-        time.text = "At " + currentWeather.time
+        //TODO: make this shake when we can't update the weather due to network errors or lack of location
+        time.text = "At " + TimeUtil.formatTime(currentWeather.time, timeZone)
 
         //TODO: get icon
         //current_icon.setImageResource(currentWeather.icon)

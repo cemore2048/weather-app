@@ -8,7 +8,7 @@ import net.rmoreno.weatherapp.models.DailyWeather
 interface WeatherView {
     fun displayDailyWeather(dailyWeather: List<DailyDetail>, sweaterTemp: Int, timezone: String)
 
-    fun displayCurrentWeather(currentWeather: Currently)
+    fun displayCurrentWeather(currentWeather: Currently, timezone: String)
 
     fun setLoading(isLoading: Boolean)
 
