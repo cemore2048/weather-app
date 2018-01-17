@@ -36,16 +36,16 @@ class MainActivity : Activity(), WeatherView {
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
         weather_loading_bar.visibility = View.VISIBLE
         weather_loading_bar.bringToFront()
+    }
+
+    public override fun onResume() {
+        super.onResume()
 
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val locationSensor = LocationSensor(this@MainActivity)
         val weatherRepository = WeatherRepository(sharedPreferences)
         val weatherInteractor = WeatherInteractor(weatherRepository, locationSensor)
         weatherPresenter = WeatherPresenter(weatherInteractor)
-    }
-
-    public override fun onResume() {
-        super.onResume()
         weatherPresenter.bindView(this@MainActivity)
     }
 

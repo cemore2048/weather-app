@@ -14,5 +14,8 @@
     <string name="precip_probability">%d \%</string>
     <string name="time_at">%s At</string>
     <string name="network_not_available">GPS network is not enabled</string>
+    <string name="ask_for_sweater_weather">What\'s your sweater weather?</string>
+    <string name="farenheit_hint">Farenheit</string>
+    <string name="done_button">Done</string>
 
 </resources>
