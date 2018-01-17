@@ -65,15 +65,15 @@ class MainActivity : Activity(), WeatherView {
     }
 
     override fun displayCurrentWeather(currentWeather: Currently, timezone: String) {
-        temperature.text = Math.round(currentWeather.temperature).toString() + "°"
+//        val num = Math.round(currentWeather.precipProbability)
+//        precipitation.text = getString(R.string.precip_probability, 1)
+        temperature.text = getString(R.string.degrees, Math.round(currentWeather.temperature))
         //TODO: make this shake when we can't update the weather due to network errors or lack of location
-        time.text = "At " + TimeUtil.formatTime(currentWeather.time, timezone)
-
+        time.text = getString(R.string.time_at, TimeUtil.formatTime(currentWeather.time, timezone))
         current_icon.setImageResource(IconUtil.getIcon(currentWeather.icon))
         summary_text.text = currentWeather.summary
-        precipitation.text = currentWeather.precipProbability.toString() + "%"
-        feels.text = Math.round(currentWeather.apparentTemperature).toString() + "°"
-        wind.text = Math.round(currentWeather.windSpeed).toString() + "mph"
+        feels.text = getString(R.string.degrees, Math.round(currentWeather.apparentTemperature))
+        wind.text = getString(R.string.wind_speed, Math.round(currentWeather.windSpeed))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -89,7 +89,7 @@ class MainActivity : Activity(), WeatherView {
         val context: Context = this@MainActivity
 
         val dialog = AlertDialog.Builder(context)
-        dialog.setMessage("GPS network is not enabled")
+        dialog.setMessage(getString(R.string.network_not_available))
         dialog.setPositiveButton(context.resources.getString(R.string.open_location_settings)) { _, _ ->
             val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivityForResult(myIntent, REQUEST_CODE)

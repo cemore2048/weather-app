@@ -48,7 +48,7 @@ class SettingsActivity : AppCompatActivity(), SettingsView {
     private fun isValidInput(input: String): Boolean {
         try {
             Integer.parseInt(input)
-            if (input.length > 0) {
+            if (input.isNotEmpty()) {
                 return true
             }
 

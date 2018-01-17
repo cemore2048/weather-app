@@ -9,5 +9,10 @@
     <string name="Cancel">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="wind_speed">%d mph</string>
+    <string name="degrees">%d °</string>
+    <string name="precip_probability">%d \%</string>
+    <string name="time_at">%s At</string>
+    <string name="network_not_available">GPS network is not enabled</string>
 
 </resources>
