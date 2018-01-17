@@ -12,7 +12,7 @@ import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.TimeUtil
 import net.rmoreno.weatherapp.models.DailyDetail
 
-class DailyAdapter(private var context: Context, private var dailyList: List<DailyDetail>, private var sweaterWeather: Int, private var timezone: String) : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
+class DailyAdapter(private var dailyList: List<DailyDetail>, private var sweaterWeather: Int, private var timezone: String) : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var maxTemperature: TextView
@@ -50,14 +50,14 @@ class DailyAdapter(private var context: Context, private var dailyList: List<Dai
         holder.precipitation.text = Math.round(dailyList[position].precipProbability).toInt().toString() + "%"
 
         if (dailyList[position].tempLow < sweaterWeather) {
-            holder.card.setCardBackgroundColor(context.resources.getColor(R.color.light_blue))
+            holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.light_blue))
         } else {
 
             when {
-                position % 4 == 0 -> holder.card.setCardBackgroundColor(context.resources.getColor(R.color.teal))
-                position % 4 == 1 -> holder.card.setCardBackgroundColor(context.resources.getColor(R.color.yellow))
-                position % 4 == 2 -> holder.card.setCardBackgroundColor(context.resources.getColor(R.color.orange))
-                position % 4 == 3 -> holder.card.setCardBackgroundColor(context.resources.getColor(R.color.red))
+                position % 4 == 0 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.teal))
+                position % 4 == 1 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.yellow))
+                position % 4 == 2 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.orange))
+                position % 4 == 3 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.red))
             }
         }
     }

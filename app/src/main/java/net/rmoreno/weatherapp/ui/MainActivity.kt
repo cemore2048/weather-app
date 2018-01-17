@@ -10,15 +10,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import net.rmoreno.weatherapp.LocationSensor
-import net.rmoreno.weatherapp.R
-import net.rmoreno.weatherapp.TimeUtil
-import net.rmoreno.weatherapp.WeatherInteractor
+import net.rmoreno.weatherapp.*
 import net.rmoreno.weatherapp.adapters.DailyAdapter
 import net.rmoreno.weatherapp.models.Currently
 import net.rmoreno.weatherapp.models.DailyDetail
+import net.rmoreno.weatherapp.models.ForecastResponse
+import net.rmoreno.weatherapp.presenters.BasePresenter
 import net.rmoreno.weatherapp.presenters.WeatherPresenter
 import net.rmoreno.weatherapp.repositories.WeatherRepository
 
@@ -27,7 +25,7 @@ class MainActivity : Activity(), WeatherView {
     //internal var ACTIVITY = "MAIN ACTIVITY"
     private var SHARED_PREFERENCES = "MyPrefs"
 
-    private lateinit var weatherPresenter: WeatherPresenter
+    private lateinit var weatherPresenter: BasePresenter<ForecastResponse, WeatherView>
 
     private var REQUEST_CODE = 100
 
@@ -44,13 +42,11 @@ class MainActivity : Activity(), WeatherView {
         val weatherRepository = WeatherRepository(sharedPreferences)
         val weatherInteractor = WeatherInteractor(weatherRepository, locationSensor)
         weatherPresenter = WeatherPresenter(weatherInteractor)
-
     }
 
     public override fun onResume() {
         super.onResume()
         weatherPresenter.bindView(this@MainActivity)
-        //TODO unbind presenter and connectivity manager
     }
 
     public override fun onPause() {
@@ -64,7 +60,7 @@ class MainActivity : Activity(), WeatherView {
     }
 
     override fun displayDailyWeather(dailyWeather: List<DailyDetail>, sweaterTemp: Int, timezone: String) {
-        val adapter = DailyAdapter(this@MainActivity, dailyWeather, sweaterTemp, timezone)
+        val adapter = DailyAdapter(dailyWeather, sweaterTemp, timezone)
         recycler_view.adapter = adapter
     }
 
@@ -73,8 +69,7 @@ class MainActivity : Activity(), WeatherView {
         //TODO: make this shake when we can't update the weather due to network errors or lack of location
         time.text = "At " + TimeUtil.formatTime(currentWeather.time, timezone)
 
-        //TODO: get icon
-        //current_icon.setImageResource(currentWeather.icon)
+        current_icon.setImageResource(IconUtil.getIcon(currentWeather.icon))
         summary_text.text = currentWeather.summary
         precipitation.text = currentWeather.precipProbability.toString() + "%"
         feels.text = Math.round(currentWeather.apparentTemperature).toString() + "°"

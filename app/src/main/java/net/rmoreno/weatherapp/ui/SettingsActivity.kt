@@ -9,6 +9,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_settings.*
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.SettingsInteractor
+import net.rmoreno.weatherapp.presenters.BasePresenter
 import net.rmoreno.weatherapp.presenters.SettingsPresenter
 import net.rmoreno.weatherapp.repositories.WeatherRepository
 

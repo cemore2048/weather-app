@@ -6,7 +6,7 @@ import net.rmoreno.weatherapp.WeatherInteractor
 import net.rmoreno.weatherapp.models.ForecastResponse
 import net.rmoreno.weatherapp.ui.WeatherView
 
-class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePresenter<ForecastResponse, WeatherView>() {
+class WeatherPresenter(private var weatherInteractor: WeatherInteractor) : BasePresenter<ForecastResponse, WeatherView>() {
 
     override fun updateView() {
         val sweather = weatherInteractor.sweaterWeather
@@ -16,16 +16,11 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
         }
     }
 
-    fun checkIfFirstTime() {
-        if (isUsersFirstTime) view()!!.goToIntroActivity()
-    }
-
     private val isUsersFirstTime: Boolean
         get() = weatherInteractor.sweaterWeather == 0
 
-    fun getWeather() {
-        weatherInteractor.getCurrentLocation().addOnSuccessListener {
-            location ->
+    private fun getWeather() {
+        weatherInteractor.getCurrentLocation().addOnSuccessListener { location ->
             if (location != null) {
                 weatherInteractor.getWeatherData(location.latitude, location.longitude)
                         .subscribeOn(Schedulers.io())
@@ -45,7 +40,7 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor): BasePr
         super.bindView(view)
         if (isUsersFirstTime) {
             view()!!.goToIntroActivity()
-        } else if (model == null){
+        } else if (model == null) {
             getWeather()
         }
     }

@@ -15,7 +15,7 @@ import org.json.JSONObject
 import java.util.*
 
 class HourlyActivity : Activity() {
-    internal var ACTIVITY = "HOURLY ACTIVITY"
+    private var ACTIVITY = "HOURLY ACTIVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class HourlyActivity : Activity() {
     }
 
     @Throws(JSONException::class)
-    fun getHourlyWeatherData(jsonData: String): ArrayList<HourlyWeather> {
+    private fun getHourlyWeatherData(jsonData: String): ArrayList<HourlyWeather> {
         val hourlyWeatherList = ArrayList<HourlyWeather>()
 
         val jsonObject = JSONObject(jsonData)
@@ -56,9 +56,9 @@ class HourlyActivity : Activity() {
         return hourlyWeatherList
     }
 
-    fun setUIValues(hourly: ArrayList<HourlyWeather>) {
+    private fun setUIValues(hourly: ArrayList<HourlyWeather>) {
         //the hourly data is get inside the adapter class
-        val adapter = HourlyAdapter(this@HourlyActivity, hourly)
+        val adapter = HourlyAdapter(hourly)
         recycler_view.adapter = adapter
 
     }

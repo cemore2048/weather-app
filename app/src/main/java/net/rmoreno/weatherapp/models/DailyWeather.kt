@@ -6,8 +6,8 @@ import java.util.*
 
 class DailyWeather {
 
-    internal var mMinTemp: Double = 0.toDouble()
-    internal var mMaxTemp: Double = 0.toDouble()
+    private var mMinTemp: Double = 0.toDouble()
+    private var mMaxTemp: Double = 0.toDouble()
     var time: Long = 0
     var icon: String? = null
     var summary: String? = null

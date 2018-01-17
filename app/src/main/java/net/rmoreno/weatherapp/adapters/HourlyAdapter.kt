@@ -1,6 +1,5 @@
 package net.rmoreno.weatherapp.adapters
 
-import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,20 +10,19 @@ import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.models.HourlyWeather
 import java.util.*
 
-class HourlyAdapter(internal var mContext: Context, internal var mDataset: ArrayList<HourlyWeather>) : RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
+class HourlyAdapter(private var dataset: ArrayList<HourlyWeather>) : RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
-        var mTemperature: TextView
-        var mTime: TextView
+        var temperature: TextView
+        var time: TextView
 
-        var mCard: CardView
+        var card: CardView
 
         init {
-
-            mTemperature = v.findViewById(R.id.temperature) as TextView
-            mTime = v.findViewById(R.id.time) as TextView
-            mCard = v.findViewById(R.id.hourlyCard) as CardView
+            temperature = v.findViewById(R.id.temperature) as TextView
+            time = v.findViewById(R.id.time) as TextView
+            card = v.findViewById(R.id.hourlyCard) as CardView
         }
     }
 
@@ -32,29 +30,22 @@ class HourlyAdapter(internal var mContext: Context, internal var mDataset: Array
         val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.hourly_view, parent, false)
 
-        val holder = ViewHolder(v)
-
-        return holder
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.temperature.text = dataset[position].temp.toString()
+        holder.time.text = dataset[position].formattedTime
 
-        holder.mTemperature.text = mDataset[position].temp.toString()
-        holder.mTime.text = mDataset[position].formatedTime
-
-        if (position % 4 == 0) {
-            holder.mCard.setCardBackgroundColor(mContext.resources.getColor(R.color.teal))
-        } else if (position % 4 == 1) {
-            holder.mCard.setCardBackgroundColor(mContext.resources.getColor(R.color.yellow))
-
-        } else if (position % 4 == 2) {
-            holder.mCard.setCardBackgroundColor(mContext.resources.getColor(R.color.orange))
-        } else if (position % 4 == 3) {
-            holder.mCard.setCardBackgroundColor(mContext.resources.getColor(R.color.red))
+        when {
+            position % 4 == 0 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.teal))
+            position % 4 == 1 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.yellow))
+            position % 4 == 2 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.orange))
+            position % 4 == 3 -> holder.card.setCardBackgroundColor(holder.itemView.context.resources.getColor(R.color.red))
         }
     }
 
     override fun getItemCount(): Int {
-        return mDataset.size
+        return dataset.size
     }
 }

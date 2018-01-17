@@ -7,7 +7,7 @@ import java.util.*
 class CurrentWeather {
     private var mTemp: Double = 0.toDouble()
     var time: Long = 0
-    var icon: String?= null
+    var icon: String? = null
     var summary: String? = null
     var timeZone: String? = null
     internal var mPrecipitation: Double = 0.toDouble()

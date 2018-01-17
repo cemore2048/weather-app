@@ -15,13 +15,12 @@ class HourlyWeather {
     val temp: Int
         get() = Math.round(mTemp).toInt()
 
-    val formatedTime: String
+    val formattedTime: String
         get() {
             val formatter = SimpleDateFormat("h:mm a")
             formatter.timeZone = TimeZone.getTimeZone(timeZone)
             val dateTime = Date(time * 1000)
-            val timeString = formatter.format(dateTime)
 
-            return timeString
+            return formatter.format(dateTime)
         }
 }

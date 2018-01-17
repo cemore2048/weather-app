@@ -18,7 +18,6 @@ class WeatherRepository(private var preferences: SharedPreferences) {
 
     fun updateSweather(temperature: Int) {
         val edit = preferences.edit()
-
         edit.remove("sweater")
         edit.putInt("sweater", temperature)
         edit.apply()

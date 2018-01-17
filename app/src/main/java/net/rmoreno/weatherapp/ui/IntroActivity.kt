@@ -10,7 +10,7 @@ import net.rmoreno.weatherapp.R
 
 class IntroActivity : Activity() {
 
-    internal var PREF = "MyPrefs"
+    private var PREF = "MyPrefs"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
