@@ -17,5 +17,8 @@
     <string name="ask_for_sweater_weather">What\'s your sweater weather?</string>
     <string name="farenheit_hint">Farenheit</string>
     <string name="done_button">Done</string>
+    <string name="sweater_weather_text">Sweater Weather</string>
+    <string name="prompt_set_sweater_weather">1. Set your sweater weather!</string>
+    <string name="whats_your_sweater_weather">What\'s your sweater weather?</string>
 
 </resources>
