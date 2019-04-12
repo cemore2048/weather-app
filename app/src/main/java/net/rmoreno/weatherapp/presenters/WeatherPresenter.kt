@@ -25,11 +25,9 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor) : BaseP
                 weatherInteractor.getWeatherData(location.latitude, location.longitude)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { response ->
-                                    setM(response)
-                                }
-                        )
+                        .subscribe { response ->
+                            setM(response)
+                        }
             } else {
                 view()!!.displayNetworkError()
             }
