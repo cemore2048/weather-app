@@ -2,10 +2,10 @@ package net.rmoreno.weatherapp.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_daily.*
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.adapters.HourlyAdapter
@@ -44,7 +44,7 @@ class HourlyActivity : Activity() {
         val hourly = jsonObject.getJSONObject("hourly")
         val data = hourly.getJSONArray("data")
 
-        for (i in 0..data.length() - 1) {
+        for (i in 0 until data.length()) {
             val hourlyWeather = HourlyWeather()
 
             hourlyWeather.time = data.getJSONObject(i).getLong("time")

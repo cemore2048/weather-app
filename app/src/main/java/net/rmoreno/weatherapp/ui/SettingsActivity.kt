@@ -1,20 +1,19 @@
 package net.rmoreno.weatherapp.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_settings.*
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.SettingsInteractor
-import net.rmoreno.weatherapp.presenters.BasePresenter
 import net.rmoreno.weatherapp.presenters.SettingsPresenter
 import net.rmoreno.weatherapp.repositories.WeatherRepository
 
 
-class SettingsActivity : AppCompatActivity(), SettingsView {
+class SettingsActivity : Activity(), SettingsView {
     private var SHARED_PREFERENCES = "MyPrefs"
     private lateinit var presenter: SettingsPresenter
 
@@ -60,7 +59,7 @@ class SettingsActivity : AppCompatActivity(), SettingsView {
         return true
     }
 
-    private fun displayToast(display: String): Unit {
+    private fun displayToast(display: String) {
         Toast.makeText(this@SettingsActivity, display, Toast.LENGTH_SHORT).show()
     }
 

@@ -1,11 +1,11 @@
 package net.rmoreno.weatherapp.adapters
 
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.models.HourlyWeather
 import java.util.*
@@ -14,16 +14,11 @@ class HourlyAdapter(private var dataset: ArrayList<HourlyWeather>) : RecyclerVie
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
-        var temperature: TextView
-        var time: TextView
+        var temperature: TextView = v.findViewById(R.id.temperature) as TextView
+        var time: TextView = v.findViewById(R.id.time) as TextView
 
-        var card: CardView
+        var card: CardView = v.findViewById(R.id.hourlyCard) as CardView
 
-        init {
-            temperature = v.findViewById(R.id.temperature) as TextView
-            time = v.findViewById(R.id.time) as TextView
-            card = v.findViewById(R.id.hourlyCard) as CardView
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyAdapter.ViewHolder {

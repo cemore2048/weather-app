@@ -1,15 +1,20 @@
 package net.rmoreno.weatherapp.ui
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import net.rmoreno.weatherapp.*
 import net.rmoreno.weatherapp.adapters.DailyAdapter
@@ -22,7 +27,6 @@ import net.rmoreno.weatherapp.repositories.WeatherRepository
 
 class MainActivity : Activity(), WeatherView {
 
-    //internal var ACTIVITY = "MAIN ACTIVITY"
     private var SHARED_PREFERENCES = "MyPrefs"
 
     private lateinit var weatherPresenter: BasePresenter<ForecastResponse, WeatherView>
@@ -32,6 +36,10 @@ class MainActivity : Activity(), WeatherView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkPermission()
+        }
 
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
         weather_loading_bar.visibility = View.VISIBLE
@@ -97,6 +105,17 @@ class MainActivity : Activity(), WeatherView {
 
         dialog.setNegativeButton(context.getString(R.string.Cancel)) { _, _ -> }
         dialog.show()
+    }
+
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).toTypedArray(),
+                    123);
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,12 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:compat="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.MainActivity">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".ui.MainActivity">
     <item
         android:id="@+id/set_sweather"
-        android:icon="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+        android:icon="@drawable/clear_day"
         android:title="Sweather"
-        compat:showAsAction="ifRoom">
+        android:showAsAction="ifRoom">
 
     </item>
     <item
@@ -14,7 +13,7 @@
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="Refresh"
         android:enabled="true"
-        compat:showAsAction="always">
+        android:showAsAction="always">
 
     </item>
 </menu>
