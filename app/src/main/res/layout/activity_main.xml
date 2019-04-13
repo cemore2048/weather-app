@@ -168,5 +168,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        style="?android:attr/progressBarStyleLarge"
         android:indeterminate="true" />
 </RelativeLayout>

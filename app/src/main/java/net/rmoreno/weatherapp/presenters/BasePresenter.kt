@@ -24,9 +24,7 @@ abstract class BasePresenter<M, V> {
 
     abstract fun updateView()
 
-    fun view(): V? {
-        return if (view == null) null else view?.get()
-    }
+    fun view(): V? = if (view == null) null else view?.get()
 
     open fun setupDone(): Boolean {
         return view() != null && model != null

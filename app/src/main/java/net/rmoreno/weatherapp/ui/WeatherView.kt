@@ -13,5 +13,4 @@ interface WeatherView {
     fun displayNetworkError()
 
     fun goToIntroActivity()
-
 }

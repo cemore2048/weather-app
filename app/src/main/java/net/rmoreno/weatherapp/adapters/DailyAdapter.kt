@@ -10,28 +10,22 @@ import net.rmoreno.weatherapp.R
 import net.rmoreno.weatherapp.TimeUtil
 import net.rmoreno.weatherapp.models.DailyDetail
 
-class DailyAdapter(private var dailyList: List<DailyDetail>, private var sweaterWeather: Int, private var timezone: String) : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
+class DailyAdapter(private var sweaterWeather: Int, private var timezone: String) : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
+
+    private var dailyList = mutableListOf<DailyDetail>()
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        var maxTemperature: TextView
-        var minTemperature: TextView
-        var day: TextView
-        var precipitation: TextView
+        var maxTemperature: TextView = v.findViewById(R.id.max_temperature) as TextView
+        var minTemperature: TextView = v.findViewById(R.id.min_temperature) as TextView
+        var day: TextView = v.findViewById(R.id.time) as TextView
+        var precipitation: TextView = v.findViewById(R.id.precipitation) as TextView
 
-        var card: CardView
+        var card: CardView = v.findViewById(R.id.hourlyCard) as CardView
 
-        init {
-            maxTemperature = v.findViewById(R.id.max_temperature) as TextView
-            minTemperature = v.findViewById(R.id.min_temperature) as TextView
-            day = v.findViewById(R.id.time) as TextView
-            precipitation = v.findViewById(R.id.precipitation) as TextView
-            card = v.findViewById(R.id.hourlyCard) as CardView
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.daily_view, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.daily_view, parent, false)
 
         return ViewHolder(v)
     }
@@ -60,7 +54,10 @@ class DailyAdapter(private var dailyList: List<DailyDetail>, private var sweater
         }
     }
 
-    override fun getItemCount(): Int {
-        return dailyList.size
+    override fun getItemCount() = dailyList.size
+
+    fun addData(dailyList: MutableList<DailyDetail>) {
+        this.dailyList = dailyList
+        notifyDataSetChanged()
     }
 }

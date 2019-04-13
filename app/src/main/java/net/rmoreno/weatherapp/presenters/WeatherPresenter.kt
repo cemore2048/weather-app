@@ -38,8 +38,10 @@ class WeatherPresenter(private var weatherInteractor: WeatherInteractor) : BaseP
         super.bindView(view)
         if (isUsersFirstTime) {
             view()!!.goToIntroActivity()
-        } else if (model == null) {
-            getWeather()
+        } else {
+            if (model == null) {
+                getWeather()
+            }
         }
     }
 

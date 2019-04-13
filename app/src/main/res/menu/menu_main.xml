@@ -3,7 +3,7 @@
       tools:context=".ui.MainActivity">
     <item
         android:id="@+id/set_sweather"
-        android:icon="@drawable/clear_day"
+        android:icon="@android:drawable/ic_menu_day"
         android:title="Sweather"
         android:showAsAction="ifRoom">
 

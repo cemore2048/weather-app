@@ -40,8 +40,6 @@ class MainActivity : Activity(), WeatherView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermission()
         }
-
-        recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
         weather_loading_bar.visibility = View.VISIBLE
         weather_loading_bar.bringToFront()
     }
@@ -68,8 +66,12 @@ class MainActivity : Activity(), WeatherView {
     }
 
     override fun displayDailyWeather(dailyWeather: List<DailyDetail>, sweaterTemp: Int, timezone: String) {
-        val adapter = DailyAdapter(dailyWeather, sweaterTemp, timezone)
-        recycler_view.adapter = adapter
+        val dailyAdapter = DailyAdapter(sweaterTemp, timezone)
+        recycler_view.apply {
+            adapter = dailyAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+        dailyAdapter.addData(dailyWeather.toMutableList())
     }
 
     override fun displayCurrentWeather(currentWeather: Currently, timezone: String) {
@@ -110,7 +112,7 @@ class MainActivity : Activity(), WeatherView {
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-        ) {//Can add more as per requirement
+        ) {
 
             ActivityCompat.requestPermissions(this,
                     listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).toTypedArray(),
@@ -123,6 +125,7 @@ class MainActivity : Activity(), WeatherView {
 
         when (id) {
             R.id.action_settings -> {
+                //TODO retrieve location
                 return true
             }
 
